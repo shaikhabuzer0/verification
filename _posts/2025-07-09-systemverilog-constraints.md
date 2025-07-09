@@ -2,7 +2,7 @@
 
 Q1. Write a constraint to generate 01010101... pattern.
 
-```systemverilog
+```verilog
 class pattern_gen;
 
 //Class members
