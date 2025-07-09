@@ -1,5 +1,5 @@
-Here you can say lots of fun things about your site.
+These blogs will help you for ASIC/SOC/IP Verification interview preperation 
 
-Maybe say a some things about yourself.
+I will talk about Systemverilog, UVM, Synopsys VCS tool, Shell scripting and much more...
 
-Or maybe what you plan to blog about.
+Stay tuned for upcoming blogs...
