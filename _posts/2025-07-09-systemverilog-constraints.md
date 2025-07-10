@@ -51,3 +51,31 @@ end
 endmodule
 
 ```
+Q2- Generate pattern 1234554321
+
+Here we can declare one array of size 10.
+```verilog
+class pattern_gen;
+ rand int a[];
+constraint a_size{ a.size == 10;}
+constraint patt{
+ foreach(a[i])
+ if(i<5) 
+  a[i] == i+1; //till i becomes 4 store i+1 value
+ else
+  a[i] == 10-i; //10-5=5, 10-6=4, 10-7=3, 10-8=2, 10-9=1
+}
+endclass
+module top;
+
+pattern_gen p; //class handle declaration
+
+initial begin
+p=new(); //class object creation
+
+if(!p.randomize())
+  $error("Randomization Failed");
+
+end
+endmodule
+```
