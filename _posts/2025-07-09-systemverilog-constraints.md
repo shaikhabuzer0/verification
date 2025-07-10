@@ -84,20 +84,45 @@ endmodule
 ```
 Q3- Generate pattern 1122334455667788
 
-Method-1
+METHOD-1
 If you divide integer by integer you will get integer value. i.e 2/2=1 and 3/2=1, 4/2=2 and 5/2=2
 so the formula is (i+2)/2
 
-```vera
+METHOD-2
+Consider the below 3bit binary numbers, if we ignore the LSB bit then we will get the desired pattern.
+00 0
+00 1
+01 0
+01 1
+10 0
+10 1
+11 0
+11 1
+```verilog
 class pattern_gen;
  rand int a[];
 constraint a_size{ a.size == 16;}
+
+//METHOD-1
 constraint patt{
  foreach(a[i])
   a[i] == (i+2)/2; 
 }
 function void post_randomize();
   $display("Randomized data is %p", a);
+endfunction
+
+//METOHD-2 (hack, in post randomized we have trimed two indices values, and started printing from index 2) 
+constraint patt{
+ foreach(a[i])
+   if(i>1)
+     a[i] == i[4:1]; 
+}
+function void post_randomize();
+ foreach(a[i])begin
+if(i>1)
+  $display("Randomized data is %d", a[i]);
+end
 endfunction
 endclass
 module top;
