@@ -2,7 +2,7 @@
 
 Q1. Write a constraint to generate 01010101... pattern.
 
-```verilog
+```systemverilog
 class pattern_gen;
 
 //Class members
@@ -11,6 +11,7 @@ rand int a[]; //dynamic array, each element is of 32bits. as our pattern is eith
 constraint a_size{ a.size == 10;} //size of the array will be 10, if you randomize one time, 10 random values will get stored in this array.
 
 //Instead of random 10 numbers we want some pattern as described above, hence writing below constraint.
+ //METHOD-1
 constraint patt{
   foreach(a[i])
     if(i%2 == 0) //even location fill 0's
@@ -18,6 +19,17 @@ constraint patt{
     else
       a[i] == 1; //odd locations fill 1's
   }
+//METHOD-2
+constraint patt1{
+  foreach(a[i])
+    a[i] == i[0]; // i variable starts from 0 to 9 as we have restricted size to 10. so taking the last bit of i variable.
+}
+//var,decimal,binary
+//i=0=00[0]
+//i=1=00[1]
+//i=2=01[0]
+//i=3=01[1]
+// and so on...
 
 function void post_randomize();
   $display("Randomized data is %p", a);
