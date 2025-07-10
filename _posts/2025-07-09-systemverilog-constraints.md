@@ -65,6 +65,40 @@ constraint patt{
  else
   a[i] == 10-i; //10-5=5, 10-6=4, 10-7=3, 10-8=2, 10-9=1
 }
+function void post_randomize();
+  $display("Randomized data is %p", a);
+endfunction
+endclass
+module top;
+
+pattern_gen p; //class handle declaration
+
+initial begin
+p=new(); //class object creation
+
+if(!p.randomize())
+  $error("Randomization Failed");
+
+end
+endmodule
+```
+Q3- Generate pattern 1122334455667788
+
+Method-1
+If you divide integer by integer you will get integer value. i.e 2/2=1 and 3/2=1, 4/2=2 and 5/2=2
+so the formula is (i+2)/2
+
+```vera
+class pattern_gen;
+ rand int a[];
+constraint a_size{ a.size == 16;}
+constraint patt{
+ foreach(a[i])
+  a[i] == (i+2)/2; 
+}
+function void post_randomize();
+  $display("Randomized data is %p", a);
+endfunction
 endclass
 module top;
 
