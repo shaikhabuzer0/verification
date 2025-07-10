@@ -2,7 +2,7 @@
 
 Q1. Write a constraint to generate 01010101... pattern.
 
-```systemverilog
+```verilog
 class pattern_gen;
 
 //Class members
@@ -19,7 +19,8 @@ constraint patt{
     else
       a[i] == 1; //odd locations fill 1's
   }
-//METHOD-2
+
+//METHOD-2 
 constraint patt1{
   foreach(a[i])
     a[i] == i[0]; // i variable starts from 0 to 9 as we have restricted size to 10. so taking the last bit of i variable.
