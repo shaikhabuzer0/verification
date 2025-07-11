@@ -138,3 +138,22 @@ if(!p.randomize())
 end
 endmodule
 ```
+Q4- Reverse the bits of an array
+METHOD-1
+We can do it using foreach loop.
+METHOD-2
+We can do this by using stream operator i.e {<<{variable}}
+```verilog
+module top;
+bit[7:0] variable=8'b1100_1001;
+bit[7:0] reversed; //expected output is 1001_0011
+initial begin
+for(int i=0; i<8; i++)begin
+ reversed[i] = variable[7-i];
+end
+
+//METHOD-2
+reversed = {<<{variable}}; //that's it.
+end
+endmodule
+```
