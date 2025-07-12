@@ -1,15 +1,15 @@
 ## Systemverilog Coding Concepts
 
-We will talk about ref keyword in systemverilog.
-There are two rules to use ref keyword.
-  R1- task/function must be automatic
-  R2- When you are calling task/function you have to pass variables as arguments not the values.
-    ex: example(a) is correct
-    example(5) is not correct
+We will talk about ref keyword in systemverilog.  
+There are two rules to use ref keyword.  
+  R1- task/function must be automatic  
+  R2- When you are calling task/function you have to pass variables as arguments not the values.  
+    ex: example(a) is correct  
+    example(5) is not correct  
 Do you know the concept of soft link in linux? if not then first you should learn that concept(takes 5min) and come back here. 
 
-In system verilog, ref keyword does similar to soft links, i.e it points to the actual value, its like reference to the actual value.
-Here is one simple example:
+In system verilog, ref keyword does similar to soft links, i.e it points to the actual value, its like reference to the actual value.  
+Here is one simple example:  
 ```verilog
 module test;
 bit clk=0;
@@ -31,10 +31,10 @@ end
 Let's understand it with different way. 
 int data=5; // that means at address 0x001 number 5 is stored.
 
-giving reference means pointing to the address of that variable.
-task exmpale(ref input bit data);// this data variable address is also 0x001. which means if the data variable declared above got changed then this data variable present inside task will get updated automatically.
+giving reference means pointing to the address of that variable.  
+task exmpale(ref input bit data);// this data variable address is also 0x001. which means if the data variable declared above got changed   then this data variable present inside task will get updated automatically.  
 
-Another example.
+Another example.  
 ```verilog
 module test;
 
