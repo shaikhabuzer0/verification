@@ -5,7 +5,7 @@ Do you know the concept of soft link in linux? if not then first you should lear
 
 In system verilog, ref keyword does similar to soft links, i.e it points to the actual value, its like reference to the actual value.
 Here is one simple example:
-
+```verilog
 module test;
 bit clk=0;
 always #5 clk = ~clk;
@@ -20,3 +20,4 @@ endtask
 initial begin
   example(.clk(clk)); // 
 end
+```
