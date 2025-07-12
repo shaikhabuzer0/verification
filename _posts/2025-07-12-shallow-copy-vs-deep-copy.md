@@ -2,6 +2,9 @@
 
 Let's take an example of a person and it's passport.
 
+- If you shallow copy a person, both people point to the same passport (same object).
+- If you deep copy, each person has a separate passport with the same info.
+
 ```verilog
 module top;
 
