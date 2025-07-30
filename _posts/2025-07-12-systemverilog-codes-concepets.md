@@ -3,7 +3,7 @@
 We will talk about ref keyword in systemverilog.  
 There are two rules to use ref keyword.  
   R1- task/function must be automatic  
-  R2- When you are calling task/function you have to pass variables as arguments not the values.  
+  R2- When you are calling task/function you have to pass variables as arguments not the values.    
     ex: example(a) is correct  
     example(5) is not correct  
 Do you know the concept of soft link in linux? if not then first you should learn that concept(takes 5min) and come back here. 
@@ -55,3 +55,24 @@ end
 endmodule
 ```
 If you observe, everywhere the value of x is same because all the variables have the same address.
+
+One more example :)
+```verilog
+module test;
+class packet;
+	bit[7:0] data;
+endclass
+
+task compute_d(packet p); //Solution: task automatic compute_d(ref packet p);
+	p=new();  // this p object is local to this task
+	p.data = 10;
+	$display("Packet data value = %d", p.data);
+endtask
+initial begin
+	packet p;
+	compute_d(p);
+	$display("Outside packet data value = %d", p.data); //here you will get null object access Error.
+end
+endmodule
+```
+Now in above case, whatever you declare inside task it's scope is limited to task. Thats the reason you will get Error.  Solution to above problem is declare task as automatic and use ref keyword(as shown in commented code).
