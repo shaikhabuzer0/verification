@@ -1,9 +1,9 @@
 ## Systemverilog OOPs Concepts
-# Class -- Encapsulates the data
+# Class (Encapsulates the data)
 It is a user defined data type. It wraps the data in single unit.  
 Everything inside the class is dynamic, to make it static use static keyword while declaring properties/methods. 
-Dynamic -- User have to create memory for it. 
-Static -- Compiler will create memory for it. 
+Dynamic --> User have to create memory for it.   
+Static --> Compiler will create memory for it.   
 ```verilog
 module top;
 class packet;
