@@ -76,7 +76,7 @@ end
 endmodule
 ```
 Now in above case, whatever you declare inside task it's scope is limited to task. Thats the reason you will get Error.  Solution to above problem is declare task as automatic and use ref keyword(as shown in commented code).
-## Const ref
+## const ref
 This keyword is for safety purpose, if you want to protect your data from being modified then you can use const ref.
 
 ```verilog
