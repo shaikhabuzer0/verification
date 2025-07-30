@@ -1,5 +1,5 @@
 ## Systemverilog Coding Concepts
-### Call/Pass by reference
+### Call by value, Call by reference & Call by const reference
 We will talk about ref keyword in systemverilog.  
 There are two rules to use ref keyword.  
   R1- task/function must be automatic  
@@ -76,3 +76,20 @@ end
 endmodule
 ```
 Now in above case, whatever you declare inside task it's scope is limited to task. Thats the reason you will get Error.  Solution to above problem is declare task as automatic and use ref keyword(as shown in commented code).
+## Const ref
+This keyword is for safety purpose, if you want to protect your data from being modified then you can use const ref.
+
+```verilog
+module test;
+real round_off=0.01; //No one should modify this value 
+  real data=5;
+  function automatic real get_val(const ref real p, input real value);
+	//round_off = 0.02; You will get error, as you can't modify const ref value inside this function
+ 	return value * p;
+endfunction
+initial begin
+get_val(round_off, data);
+  $display("value of round_off=%f, data=%d and computed data=%f", round_off, data, get_val(round_off, data));
+end
+endmodule
+```
