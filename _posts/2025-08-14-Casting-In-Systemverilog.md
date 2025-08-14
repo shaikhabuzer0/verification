@@ -1,7 +1,7 @@
 # Casting in Systemverilog
 Casting means converting from one format to other format.
 There are two types of casting. 
-1. Static Casting --> happends during compile time  
+1. Static Casting --> happens during compile time  
     * Implicit Casting
     * Explicit Casting(tick operator " ' ")
 Applications of static casting.  
