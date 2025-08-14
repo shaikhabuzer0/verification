@@ -46,7 +46,7 @@ child class
 i.e c = p;  
 Here child is pointing to parent. We need to do this using $cast 
 
-Best examaple of using $cast
+Following is the example of $cast 
 ```verilog
 class transaction;
 int addr;
