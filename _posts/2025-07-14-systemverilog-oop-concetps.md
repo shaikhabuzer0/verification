@@ -28,6 +28,7 @@ packet p; //handle/pointer/instance of a class packet. It stores the address of 
 initial begin
 p=new(,15); //object creation. i.e memory is created and its address is stored inside p, and all the members are initialized to their defalut value
 //addr is initialized to 12, and data is initialized to 15.
+p.print();
 p.data = 10;
 //p.addr = 12;//not allowed as addr is local to class packet. it can't be accessed outside of class.
 p.print();
