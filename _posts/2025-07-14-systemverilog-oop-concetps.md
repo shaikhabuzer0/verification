@@ -5,26 +5,37 @@ Everything inside the class is dynamic, to make it static use static keyword whi
 Dynamic --> User have to create memory for it.   
 Static --> Compiler will create memory for it.   
 ```verilog
+// Code your testbench here
+// or browse Examples
 module top;
 class packet;
-int data; //it is a public member, visible to all
-local int addr; //now this variable is not publically visible as it is declared as local. Even this class handle cannot acces this variable.
+	int data; //it is a public member, visible to all
+	local int addr; //now this variable is not publically visible as it is declared as local. Even this class handle cannot acces this variable.
 
 //Class constructor, even if you don't declare it compiler will add class constructor. It is used to create the object of class. 
-function new(int addr=12, data);
-this.addr = addr;// this keyword is nothing but predefined handle of the class. To access the class members within the class we use this keyword  
-this.data = data;//this.data = data is nothing but p.data = data
-endfunction
+	function new(int addr=12, data);
+		this.addr = addr;// this keyword is nothing but predefined handle of the class. To access the class members within the class we use this keyword  
+		this.data = data;//this.data = data is nothing but p.data = data
+	endfunction
+  
+  function void print();
+    $display("addr = %d\n data = %d\n", addr, data);
+  endfunction
 endclass
+  
 packet p; //handle/pointer/instance of a class packet. It stores the address of object.
+  
 initial begin
 p=new(,15); //object creation. i.e memory is created and its address is stored inside p, and all the members are initialized to their defalut value
 //addr is initialized to 12, and data is initialized to 15.
-p1.data = 10;
-p1.addr = 12;//not allowed as addr is local to class packet. it can't be accessed outside of class.
+p.data = 10;
+//p.addr = 12;//not allowed as addr is local to class packet. it can't be accessed outside of class.
+p.print();
 end
 endmodule
 ```
+[class edaplayground link](https://www.edaplayground.com/x/hBJU)  
+
 Note: without creating object of class still we can access its methods. but there are conditions as follows
 1. Methods should not be virtual
 2. Methods should not contain class members
