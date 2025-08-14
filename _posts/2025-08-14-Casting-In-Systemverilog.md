@@ -62,3 +62,49 @@ this.addr = rhs_.addr; //i.e t2.addr = rhs_->t1.addr
 endfunction
 
 ```
+Complete working code:
+```verilog
+module test;
+import uvm_pkg::*;
+`include "uvm_macros.svh"
+class txn extends uvm_object;
+	`uvm_object_utils(txn);
+rand int addr;
+virtual function void do_copy(uvm_object rhs); //rhs -> t1; 
+//	this.addr = rhs.addr;// we can't access child properties from parent handle	
+	txn rhs_;
+	super.do_copy(rhs);
+	$cast(rhs_, rhs);//rhs_ -> rhs - > t1 i.e rhs_ -> t1
+	this.addr = rhs_.addr; //this -> t2
+	//t2.addr = rhs_->t1.addr;
+	//this keyword refers to the handle through which the copy method is called
+endfunction
+virtual function bit do_compare(uvm_object rhs, uvm_comparer comparer);
+	txn rhs_;
+	$cast(rhs_, rhs);//rhs_ -> rhs - > t1 i.e rhs_ -> t1
+	super.do_compare(rhs, comparer);
+
+return (this.addr == rhs_.addr);
+endfunction
+virtual function void do_print(uvm_printer printer);
+	super.do_print(printer);
+printer.print_int("addr", addr, $bits(addr) ,UVM_HEX);
+endfunction
+endclass
+
+txn t1, t2;
+
+initial begin
+t1 = txn::type_id::create("t1");
+t2 = txn::type_id::create("t2");
+t1.randomize();
+t2.copy(t1); //copy t1 into t2
+t1.print();
+t2.print();
+if(t2.compare(t1))begin
+	$display("t1 and t2 are same");
+end
+end
+endmodule
+
+```
