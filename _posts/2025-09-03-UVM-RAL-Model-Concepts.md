@@ -27,12 +27,12 @@ urp.map = map;
 urp.adapter = adapter_inst;  
 3. Passive predictor  
 
-predict() --> updates the desired and mirrored value of a register in RAL model. No txn is performed on hardware registers
+predict() --> updates the desired and mirrored value of a register in RAL model. No txn is performed on hardware registers  
 mirror() it internally calls predict() --> Read the hardware register and upate/check its existing mirror value.    
 
 example:  
-write(2) // desired=2 mirrored=2 dut=2
-predict(3) // desire=3, mirrored=3, dut=2
-mirror() // dut=2 != mirrored=3 throws error if UVM_CHECK is enable
+write(2) // desired=2 mirrored=2 dut=2  
+predict(3) // desire=3, mirrored=3, dut=2  
+mirror() // dut=2 != mirrored=3 throws error if UVM_CHECK is enable  
 
 
