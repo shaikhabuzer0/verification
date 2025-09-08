@@ -1,6 +1,6 @@
 ## AXI Protocol Concepts  
 It's a point to point specification.  
-5 Independant channels
+5 Independant channels  
 AW  Addr Write  --->     
 W  Write data  --->   
 B  Buffered  <---   
