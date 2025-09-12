@@ -46,3 +46,11 @@ R   Read data  <---
 | AxLOCK\[1:0\]    | AxLOCK i.e there is no lock support, only exclusive access support is given                                                                  |
 | WID\[x:0\]       | AWQOS\[3:0\], AWREGION\[3:0\], AWUSER\[x:0\], WUSER\[x:0\], BUSER\[x:0\] |
 
+### Protection & Privilege Level Support AxPROT\[2:0\](for Processors)
+0bit- Is it a data transfer or instruction transfer?(instruction or data). If the transaction is mixed of instruction and data then it is treated as data only.
+1bit- Is it accessing secured memory region or non-secured memory region?(secure/non-secure)  
+2bit- Is this a normal transaction or VIP transaction? (privilege/non-privilege)  
+
+### Cache  
+
+
