@@ -98,7 +98,7 @@ Scenario 1:
 Scenario 2:  
   M1-> ex-read @0x04  
   M2-> ex-write @0x04 -> response ex-okay  
-  M1-> ex-write @0x04 -> response okay(error) and whatever is written by M1 won't get upated in memory  
+  M1-> ex-write @0x04 -> response okay(error) and whatever M1 is trying to write won't get upated in memory  
 
 ### QoS AxQOS (Quality of service)(prioritize transactions)  
   x0 -> lowest priority  
