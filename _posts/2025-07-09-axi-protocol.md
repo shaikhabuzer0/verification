@@ -79,10 +79,29 @@ Write Allocate → "If I write something new, should I also keep it in cache?"
 NOTE: We don't have read storbe signal, we have only write strobe signal.  
       WSTRB can change between transfers in transaction  
 
-### Atomic Access  
-#### Locked Access  
+### Atomic Access AxLOCK (Avoids memory overwrite problem) 
+#### Locked Access 
 locks the channel, remains locked until unlocked transfer is generated.  
 When its lock transaction then interconnect must ensure only that master can access the targeted slave region until unlocked from same master completed  
 #### Exclusive access(sharing a slave memory space)    
 Multiple masters accessing single slave but different locations  
+Helpful in read modify write operations.  
+Example.  location 0x04 value 1234
+  Suppose master M1 performs an ex-read on address location 0x04, at some later point time, M1 attempts to complete the exclusive operation by performing ex-write to the same address location.  
+  The exclusive write of the M1 is signalled as successfull if no other master i.e M2 has written to that location between ex-read and ex-write of M1. i.e M1 will get response as ex-okay(successful exclusive access)
+  The exclusive write of the M1 is signalled as failed if another master i.e M2 has written to that location between ex-read and ex-write of M1, in this case M1 will get Okay response(error).  
+
+Scenario 1:  
+  M1-> ex-read @0x04  
+  M1-> ex-write @0x04 -> response ex-okay(successfull)  
+  
+Scenario 2:  
+  M1-> ex-read @0x04  
+  M2-> ex-write @0x04 -> response ex-okay  
+  M1-> ex-write @0x04 -> response okay(error) and whatever is written by M1 won't get upated in memory  
+
+### QoS AxQOS (Quality of service)(prioritize transactions)  
+  x0 -> lowest priority  
+  xf -> highest priority  
+Sometimes CPU require memory access that are more important thatn GPU or any other system  
 
