@@ -103,5 +103,34 @@ Scenario 2:
 ### QoS AxQOS (Quality of service)(prioritize transactions)  
   x0 -> lowest priority  
   xf -> highest priority  
-Sometimes CPU require memory access that are more important thatn GPU or any other system  
+Sometimes CPU require memory access that are more important thatn GPU or any other system
 
+### AXI channel dependancies
+- wlast must complete before bvalid is asserted
+  - Master must send all data before a write response can by seen by master
+  - Note: in AXI3 address does not have to be seen before write response is sent i.e response can come first then address we can send, In AXI4 all data and address must be transfer before master can see a write response
+- Rvalid cannot be asserted until ARADDR has been transfer(slave cannot transfer any rdata without seeing the address first(read xtn)
+- wvalid can assert before AWVALID i.e master can write data to slave before sending the address to slave
+
+### Transfer behaviour and Transaction ordering
+#### Out of order(transfer ID)
+AWID WID(not in AXI4) BID ARID RID
+Rules:  
+  - All transfer must have ID
+  - All transfers in xtn must have same ID
+  - master can support multiple ID's for multple threads( i.e multiple transaction with different IDs)
+#### Ordering rule for write xtn(interleaving is not supported)
+- wdata must follow the same order as the addr transfer on AW channel
+- i.e if master issues address A then B, so data must start with A0A1AL before B0B1BL
+- Note: In AXI4 we don't have WID to keep track of xtn hanece interleaving for write xtn is not supported
+- A0B0B1A1ALBL not supported in AXI4(write data interleaving)
+
+- Transaction with **different** ID's can complete in any order i.e out of order completion i.e response can come in any order
+- i.e write data order (A0A1AL, id0) (B0B1BL, id1)
+- write response order (B, id1) (A, id0) i.e first response is recived of B xtn then A xtn
+- Transaction with same ID's must complete in same order
+- i.e write data order (A0A1AL, id0) (B0B1BL, id1) (C0CL, id0)
+- completion order (B, id1) (A, id0) (C, id0) here A and C are having same IDs and same completion order
+
+#### Ordering rules for read xtn(interleaving is supported)
+- rdata for different ID's on R channel has no ordering restrictions i.e slave can send it in any order2
