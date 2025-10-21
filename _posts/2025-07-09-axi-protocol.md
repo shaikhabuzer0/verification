@@ -119,7 +119,7 @@ Rules:
   - All transfer must have ID
   - All transfers in xtn must have same ID
   - master can support multiple ID's for multple threads( i.e multiple transaction with different IDs)
-#### Ordering rule for write xtn(interleaving is not supported)
+#### Ordering rule for write xtn(interleaving is not supported on WDATA)
 - wdata must follow the same order as the addr transfer on AW channel
 - i.e if master issues address A then B, so data must start with A0A1AL before B0B1BL
 - Note: In AXI4 we don't have WID to keep track of xtn hanece interleaving for write xtn is not supported
@@ -128,9 +128,22 @@ Rules:
 - Transaction with **different** ID's can complete in any order i.e out of order completion i.e response can come in any order
 - i.e write data order (A0A1AL, id0) (B0B1BL, id1)
 - write response order (B, id1) (A, id0) i.e first response is recived of B xtn then A xtn
-- Transaction with same ID's must complete in same order
+- Transaction with **same** IDs must complete in same order
 - i.e write data order (A0A1AL, id0) (B0B1BL, id1) (C0CL, id0)
 - completion order (B, id1) (A, id0) (C, id0) here A and C are having same IDs and same completion order
 
-#### Ordering rules for read xtn(interleaving is supported)
-- rdata for different ID's on R channel has no ordering restrictions i.e slave can send it in any order2
+#### Ordering rules for read xtn(interleaving is supported on rdata)
+- rdata for **different ID's** on R channel has no ordering restrictions i.e slave can send it in any order
+- ex:
+AWID 0 1
+AR   A B
+RID  1
+R    BL
+In above example txn B is serviced first before A, even though the address for txn A is received first
+ex:
+ARID 0 1
+AR   A B
+RID  1 0 0 1 1 0 0
+R    B A A B 
+Interleaving concept is related with burst wdata and rdata
+Out of order(outstanding) txn concept is related with bresp and rresp
