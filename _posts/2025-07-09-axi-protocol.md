@@ -16,24 +16,24 @@ R   Read data  <---
 - Unalingned data transfer
 - Out of order txns completion i.e slave received multiple request with ID's. Slave can serve(give response back to master) any request out of order with ID's tagged
 - Burst txns i.e only single address is required i.e start address, then slave will calculate the next address based on burst
-  ### Handshake
+  #### Handshake
   - Valid goes from source to destination
   - Valid is sticky, must remain asswerted until destination accepts information
-  ### Transfer vs Transaction  
+  #### Transfer vs Transaction  
   Transfer: Single exchange of information with one valid and ready handshake
   Transaction: Write transaction, Read transaction
-  ### Valid ready assertions
+  #### Valid ready assertions
   Ready can be asserted at any time, before valid, after valid or at same time as valid
 
-  ### Write transaction   
+  #### Write transaction   
   - The master drives the wlast signal high to indicate final data\
       - slave either can monitor wlast or it can count all the transfered data using SIZE and LENGTH\
       - Once all the data is received then slave give a single BRESP for all the burst\
       - If there is any error in received data, slave has to wait for entire transfer to complete then inform master that error has occured\
-  ### Read transaction  
+  #### Read transaction  
   - For read transaction there is RRESP for every transfer in transaction because in write transaction slave has to send BRESP as separate transfer on separate channel i.e response channel. But in case of read transaction we don't have separate channel for response, instead slave uses the same channel i.e RDATA to send the response  
   - If an error occured, slave will respond with error message but still slave has to wait for burst to complete i.e NO EARLY BURST TERMINATION  
-  ### Active transaction / Outstanding transaction  
+  #### Active transaction / Outstanding transaction  
   - READ: AR has been transfered but last read data has not been transfered i.e it is still pending(outstanding/active)  
   - WRITE: AW has been transfered but response i.e BRESP has not yet been transfered(outstanding/active)  
     NOTE:\
