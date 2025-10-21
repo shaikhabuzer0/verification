@@ -144,6 +144,77 @@ ex:
 ARID 0 1  
 AR   A B  
 RID  1 0 0 1 1 0 0  
-R    B A A B   
+R    B A A B
+---------------------------
+(B0, ID1) (A0A0, ID0) (B1BL, ID1) (A2AL, ID0)  
+For txn with **same** IDs, rdata on R channel must be returned in the order that they were requested  
+
+### Unaligned transfer (start address)
+Note: There won't be any data loss in unaligned txn   
+Unaligned address only affects the first transfer in txn, all other transfers are aligned  
+ex:  
+AWADDR = 1   
+AWSIZE = 2 == 4BYTES  
+AWLENG = 5  
+AWBURST == INCR  
+AWSTROBE = 20'hF_FFFE    
+
+TOTAL DATA TRANSFER = SIZE * LEN = 4BYTES * 5 = 20BYTES out of which first byte is invalid represented by strobe  
+
+
+### 4KB boundary  
+For each slave 4kb of address space is allotted.  
+0 to 2095KB is allocated to slave1    
+4096 to 8191 is second slave address space  
+
+So the idea is, whenever AXI is doing a write txn or read txn it should be within single slave address space, it should not cross specific slave address space  
+i.e address offset + total transfer should not cross 4kb boundary  
+
+address offset = AWADDR % 4096  
+total transfer = 2^(AWSIZE) * (AWLEN + 1) 
+
+#### Constraint for 4kb boundary  
+address offset + total transfer <= 4kb  
+awaddr % 4096 + (2^size * (awlen + 1)) <= 4096  
+
+### End address calculation for burst 
+end address = AWADDR + 2^(AWSIZE) * (AWLEN - 1)
+Example:  
+AWADDR = 100  
+AWSIZE = 0  
+AWLEN = 15  
+end address = AWADDR + (2^AWSIZE * (AWLEN -1))  
+            = 100 + 1 * 16 -1  
+            = 115  
+            
+
+### Wrap calculation  
+wrap boundary = int(start addr/total transfer) * total transfer  
+### End address calculation for wrap  
+end address = wrap boundary + total transfer  
+Example:  
+AWADDR = 4  
+AWSIZE = 2  
+AWLEN = 3  
+AWBURST = WRAP  
+end address = wrap boundary + total transfer  
+wrap boundary = int(start addr/total transfer) * total transfer  
+              = (4/16) * 16  
+              = 0 * 16
+              = 0
+end address   = 0 + 16
+              = 16
+transfer starts from address 4 till 16 then roll back to 4th address i.e wrap  
+### strobe calculation
+no. of strobe bits = no. of data bits / 8  
+no. of 1's = 2^size  
+ex: 2^2 = 4bytes = strobe needs 4bits to represent 4bytes, each bit represents 1byte  
+Constraint for strobe  
+if(awsize == 0) $counones(wstrobe) == 1  
+if(awsize == 1) $counones(wstrobe) == 2  
+if(awsize == 2) $counones(wstrobe) == 4  
+
+
+
 Interleaving concept is related with burst wdata and rdata  
 Out of order(outstanding) txn concept is related with bresp and rresp  
