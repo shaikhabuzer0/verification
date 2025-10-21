@@ -135,15 +135,15 @@ Rules:
 #### Ordering rules for read xtn(interleaving is supported on rdata)
 - rdata for **different ID's** on R channel has no ordering restrictions i.e slave can send it in any order
 - ex:
-AWID 0 1
-AR   A B
-RID  1
-R    BL
-In above example txn B is serviced first before A, even though the address for txn A is received first
-ex:
-ARID 0 1
-AR   A B
-RID  1 0 0 1 1 0 0
-R    B A A B 
-Interleaving concept is related with burst wdata and rdata
-Out of order(outstanding) txn concept is related with bresp and rresp
+AWID 0 1  
+AR   A B  
+RID  1  
+R    BL  
+In above example txn B is serviced first before A, even though the address for txn A is received first  
+ex:  
+ARID 0 1  
+AR   A B  
+RID  1 0 0 1 1 0 0  
+R    B A A B   
+Interleaving concept is related with burst wdata and rdata  
+Out of order(outstanding) txn concept is related with bresp and rresp  
