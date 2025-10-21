@@ -36,7 +36,7 @@ R   Read data  <---
   #### Active transaction / Outstanding transaction  
   - READ: AR has been transfered but last read data has not been transfered i.e it is still pending(outstanding/active)  
   - WRITE: AW has been transfered but response i.e BRESP has not yet been transfered(outstanding/active)  
-    NOTE:\
+    NOTE:  
     - In read transaction address must come before data.  
     - In write transaction data can come after address, leading write data is also allowed
 
@@ -203,7 +203,7 @@ wrap boundary = int(start addr/total transfer) * total transfer
               = 0 * 16
               = 0
 end address   = 0 + 16
-              = 16
+              = 16  
 transfer starts from address 4 till 16 then roll back to 4th address i.e wrap  
 ### strobe calculation
 no. of strobe bits = no. of data bits / 8  
