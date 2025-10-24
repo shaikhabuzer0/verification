@@ -9,6 +9,10 @@ R   Read data  <---
 
 - Each channel is unidirectional, hence separate write response i.e B channel is needed.  
 ![AXI Flow Diagram](https://shaikhabuzer0.github.io/verification/asset/axi_arch.jpg)
+
+<p align="center">
+  <img src="{{ site.baseurl }}/asset/axi_arch.jpg" width="600" alt="AXI Flow Diagram">
+</p>
 ### Features  
 - Separate Write and Read channels maximize the bandwidth, both can work in parallel
 - Multiple outstanding addresses i.e manager can issue transactions without waiting for earlier txns to complete. It enables parallel processing of txns hence improved performance.
