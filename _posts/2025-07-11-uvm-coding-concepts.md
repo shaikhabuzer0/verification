@@ -26,4 +26,27 @@ run 100ns -> it will execute the simulation till 100ns duration
 
 vsim view -vsim.wlf -> to open waveform  
 add wave * -> to add all the signals to waveform window   
-restart -f -> it will restart the simulation 
+restart -f -> it will restart the simulation  
+
+Makefile for Questasim simulator  
+```make
+INCDIR = +incdir+./
+COVOPT = -coveropt 3 +cover=bcft
+VSIMOPT = -vopt -voptargs=+acc
+VSIMBATCH = -c -do "log -r /* ; run -all;"
+work = work
+files = fifo.sv
+TOP = top #top module name
+
+comp:
+        vlib $(work) #library creation
+        vmap work $(work) #library mapping
+        vlog -work $(work) $(INC) $(files) #compilation
+
+sim: comp
+        vsim $(VSIMOPT) $(VSIMCOV) $(VSIMBATCH) -wlf wave.wlf -l run.log -sv_seed random work.$(TOP)
+
+run: sim
+dump:
+        vsim -gui -view wave.wlf
+```
