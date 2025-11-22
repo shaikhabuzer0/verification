@@ -93,3 +93,58 @@ get_val(round_off, data);
 end
 endmodule
 ```
+
+## Static Vs Automatic  
+By default inside class a properties and methods are automatic and inside module properties and methods are static.
+Inside class you can't explicitly mention automatic keyword, it will give compilation error.  
+But inside module you can mention static keyword explicitly.  
+```verilog
+class base;
+function get(); //automatic function
+$display("Inside get function");
+endfunction
+endclass
+base b;
+b.get();
+```
+will it print the result? Yes, even without creating object it will print the result as there is no automatic variables accessed inside function.  
+```verilog
+class base;
+function get();//automatic function
+int a; //automatic variable
+a++;
+$display("Inside get function a=%d",a);
+endfunction
+endclass
+base b;
+b.get();
+b.get();
+```
+will it print the result? Yes, it will print the results as we are not accessing global automatic variable, int a is local automatic variable to that function.
+
+```verilog
+class base;
+static int a;
+function get();//automatic function
+a++;//static variable
+$display("Inside get function a=%d",a);
+endfunction
+endclass
+base b;
+b.get();
+```
+will it print the results? Yes, no need to create object as we are accessing static variable inside automatic function.  
+```verilog
+class base;
+static int a;
+static function get();//static function
+automatic int b; // automatic varialbe, but it's local to method, fine.
+a++;//static variable, fine
+$display("Inside get function a=%d",a);
+endfunction
+endclass
+base b;
+b.get();
+```
+Getting confused? So just remember the GOLDEN rule.  
+If you want to access automatic variables declared outside method, then you must create object of a class, otherwise no need to create the object of class in all other scenarios.
