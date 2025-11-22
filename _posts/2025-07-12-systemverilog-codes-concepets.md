@@ -95,9 +95,9 @@ endmodule
 ```
 
 ## Static Vs Automatic  
-By default inside class a properties and methods are automatic and inside module properties and methods are static.
+By default inside class properties and methods are automatic untill declared static explicitly and inside module properties and methods are static.  
 Inside class you can't explicitly mention automatic keyword, it will give compilation error.  
-But inside module you can mention static keyword explicitly.  
+But inside module you can mention static keyword explicitly and you can't declare automatic variable inside module, module is meant to be static.    
 ```verilog
 class base;
 function get(); //automatic function
