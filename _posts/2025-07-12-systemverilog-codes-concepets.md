@@ -189,5 +189,24 @@ $display("Outside loop");
 end
 end
 ```
+## Basics
 
+left shift operation(multiplication).  
+```verilog
+logic [3:0] data;  
+bit in;  
+data << 1;// left shift by 1 bit and append zeros on LSB  
+data << 1 | in; // left shift by 1 bit and append incoming new bits  
+{data[2:0], in}; // does exactly as above i.e it removes the MSB and appends new bits to LSB  
+```
+READ MODIFY WRITE
+```verilog
+logic[7:0]register=8'hFF; // want to make it 8'hAF  
+logic[7:0] temp;  
 
+temp = register;  
+temp = {4'hA, 4'b0} // result is A0  
+		|  
+		(8'hAF & 8'h0F); // result is 0F  
+register = temp; // AF  
+```
