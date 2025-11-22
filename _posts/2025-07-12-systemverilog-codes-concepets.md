@@ -148,3 +148,46 @@ b.get();
 ```
 Getting confused? So just remember the GOLDEN rule.  
 If you want to access automatic variables declared outside method, then you must create object of a class, otherwise no need to create the object of class in all other scenarios.
+
+##Fork join
+what is the output of below code?
+```verilog
+initlal begin
+for(int i=0; i<3; i++)begin
+	fork
+		$display("i=%d", i);
+	join_none
+$display("Outside loop");
+end
+end
+```
+How many threads will be scheduled? I'ts 4 threads. because i is static variable.   
+first i=0 then condition check(i<3) which is true then goes inside loop and then i++ i.e i=1  
+i=1 condition check(i<3) true, i++ i.e i=2  
+i=2 condition check(i<3) true, i++ i.e i=3  
+i=3 condition check(i<3) false, stop.  
+Now you see i already became 3. which will override all other thread values.  
+
+Lets see how static is making a difference...  
+first it will schedule the threads and then starts executing  
+imagine, delta+0 delta+1 delta+2 delta+3  
+            i=0   i=1     i=2     i=3  
+the i variable is same so the latest value will override all other values  
+  
+Now just use automatic variable and store i value in it.  
+automatic k=i;  
+imagine, delta+0 delta+1 delta+2 delta+3;  
+          k=i=0   k=i=1   k=i=2   k=i=3     for each ke there is separate memory so no overriding happens.  
+```verilog
+initlal begin
+for(int i=0; i<3; i++)begin
+	automatic k=i;
+	fork
+		$display("i=%d", k);
+	join_none
+$display("Outside loop");
+end
+end
+```
+
+
