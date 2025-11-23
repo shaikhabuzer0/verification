@@ -108,3 +108,33 @@ end
 endmodule
 
 ```
+Are you bored of doing static casting? there is a better way to do it with the help of unions..  
+```verilog
+Convert bit[7:0] u_addr to byte s_addr
+typedef union packed{
+	bit[7:0] u_addr;
+	byte s_addr;
+} u_to_s_conv;
+u_to_s_conv usc;
+usc.u_addr = 8'hFF; //255 unsigned
+$display("signed value is %h", usc.s_addr);// -1
+
+in above case 255 got converted to signed number.
+
+if you received 32bits of number and you want to extract address fields(4bits) from the received packet then unions are useful
+
+typedef union packed{
+	bit[31:0] packet;
+	bit[3:0] addr;
+	bit[27:0] data;
+} packet_u;
+packet_u pkt_u;
+pkt_u.packet = dut.output; //received 32bits of packet
+
+if(pkt_u.addr == 4'd6)begin //alternate way is if(packet[31:28] == 4'd6) which is not recommended
+	if(pkt_u.data== 28'dFFFF_FFF)begin //alternate way is if(packet[27:0] == 4'd6)
+		$display("Received correct data");
+	end
+end
+
+```
