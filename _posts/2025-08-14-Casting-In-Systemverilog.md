@@ -123,16 +123,20 @@ in above case 255 got converted to signed number.
 
 if you received 32bits of number and you want to extract address fields(4bits) from the received packet then unions are useful
 
+typedef struct packet{
+	bit[3:0] addr; //MSB
+	bit[27:0] data;//LSB
+} header_s;
+
 typedef union packed{
-	bit[31:0] packet;
-	bit[3:0] addr;
-	bit[27:0] data;
-} packet_u;
+	header_s h;
+	bit[31:0] packet; //Note inside union all members size must be same packet and h size must be same.
+}
 packet_u pkt_u;
 pkt_u.packet = dut.output; //received 32bits of packet
 
-if(pkt_u.addr == 4'd6)begin //alternate way is if(packet[31:28] == 4'd6) which is not recommended
-	if(pkt_u.data== 28'dFFFF_FFF)begin //alternate way is if(packet[27:0] == 4'd6)
+if(pkt_u.h.addr == 4'd6)begin //alternate way is if(packet[31:28] == 4'd6) which is not recommended
+	if(pkt_u.h.data== 28'dFFFF_FFF)begin //alternate way is if(packet[27:0] == 4'd6)
 		$display("Received correct data");
 	end
 end
