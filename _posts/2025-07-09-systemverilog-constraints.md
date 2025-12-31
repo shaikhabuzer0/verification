@@ -471,8 +471,9 @@ endfunction
 */
 
 /*
-//prime number
+//prime number checking
 rand int num;
+int flag=0;
 constraint value_c{
     num inside {[1:100]};
     }
@@ -483,22 +484,21 @@ function int prime(int num);
     end
     for(int i=2; i<num; i++)begin
         if(num%i==0)begin
-            $display("The given number=%d is not a prime number", num);
+            $display("The given number=%0d is not a prime number", num);
+            flag = 1;
             return 0; //if its not prime number then return 0 value
-        end else begin
-            //$display(" %d Number is prime", num);
-            return num;//if its prime number then return that value
         end
     end
-
+  if(flag == 0)begin
+   $display("----------------------------------------------------------------------------");
+   $display("The given number=%0d is prime number", num);
+   $display("----------------------------------------------------------------------------");
+  end
 endfunction
 
 
 function void post_randomize();
         result = prime(num);
-        $display("----------------------------------------------------------------------------");
-        $display("Prime number is %d", result);
-        $display("----------------------------------------------------------------------------");
 endfunction
 */
 
@@ -510,15 +510,20 @@ function int prime(int num);
     for(int i=2; i<num; i++)begin
         if(num%i==0)begin
             //$display("The given number=%d is not a prime number", num);
+            flag = 1;
             return 3; //if its not prime number then return 0 value
-        end else begin
-            //$display(" %d Number is prime", num);
-            return num;//if its prime number then return that value
         end
+  if(flag == 0)begin
+   $display("----------------------------------------------------------------------------");
+   $display("The given number=%0d is prime number", num);
+   $display("----------------------------------------------------------------------------");
+   return num;
+  end
     end
 endfunction
 
 /*
+//Prime numbers generation
     constraint valued_cx{
         dummy.size == 50;
         }
