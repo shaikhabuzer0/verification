@@ -189,6 +189,56 @@ $display("Outside loop");
 end
 end
 ```
+# Callback
+Polymorphism's advanced version is callback.
+Without changing the code, changing the behaviour of the code.  
+Callback involves virtual method, inheritance and handle assignment.  
+```verilog
+module test;
+typedef enum{GOOD, BAD1, BAD2} pkt_type;
+class driver;
+pkt_type pkt;
+task send_pkt();
+std::randomize(pkg) with {pkt == GOOD;};
+modify_pkt(); // will get called only if inject_error = 1 otherwise dummy method will get called.  
+endtask
+
+//dummy virtual method
+virtual task modify_pkt():
+endtask
+
+endclass
+
+class err_driver extends driver;
+task modify_pkt();
+std::randomize(pkt) with {pkt inside {BAD1, BAD2};};
+endtask
+endclass
+
+class env;
+	driver d;
+	err_driver ed;
+function new();
+	d=new();
+	ed=new();
+endfunction
+
+task execute();
+	if(inject_error)begin
+		d = ed;
+	end
+	d.send_pkt();
+	$display("Sending pkt = %s", d.pkt.name());
+endclass
+initial begin
+	env e;
+	e = new();
+	e.execute(); // good pkt
+	e.inject_error = 1;
+	e.execute(); // bad pkt
+end
+endmodule
+```
 ## Basics
 
 left shift operation(multiplication).  
