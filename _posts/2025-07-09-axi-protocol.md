@@ -117,12 +117,18 @@ Sometimes CPU require memory access that are more important thatn GPU or any oth
 - wvalid can assert before AWVALID i.e master can write data to slave before sending the address to slave
 
 ### Transfer behaviour and Transaction ordering
-#### Out of order(transfer ID)
+#### Out of order(transfer ID) only for completion transactions i.e BID and RID   
 AWID WID(not in AXI4) BID ARID RID
 Rules:  
   - All transfer must have ID
   - All transfers in xtn must have same ID
   - master can support multiple ID's for multple threads( i.e multiple transaction with different IDs)
+#### interleaving vs Out of order?
+Interleaving is nothing but mixing of beats of burst. If you mix the beats of burst you should be able to identify as well that which beat belongs where, this identification we can do if we have IDs.  
+
+Interleaving is possible when you are doing AWID, WID, ARID transactions, all these transactions are initiated by master.  
+Out of order is not related with beats, it's related with complete transaction response. If master has initiated multiple transaction without waiting for any of the response then slave can respond back to these transactions in any order, this is called out of order completion.  
+
 #### Ordering rule for write xtn(interleaving is not supported on WDATA)
 - wdata must follow the same order as the addr transfer on AW channel
 - i.e if master issues address A then B, so data must start with A0A1AL before B0B1BL
