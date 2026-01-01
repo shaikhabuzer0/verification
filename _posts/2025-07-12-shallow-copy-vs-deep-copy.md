@@ -1,4 +1,18 @@
 ## Shallow Copy and Deep Copy In System Verilog
+Why we need shallow copy?  
+To solve the problem of handle assignment we do shallow copy.  
+ex:
+```verilog
+person p1, p2;
+p1=new();
+p1.name = "Jhon";
+p2 = p1;
+p2.name = "Wick"; // this will override the p1.name to Wick, because p2 and p1 share the same memory space. solution is shallow copy.
+i.e
+p2 = new p1;// when doing copy make new memory for p2 and then copy p1 into p2.
+```
+Why we need deep copy?  
+Problem with shallow copy is that if there is any nested class i.e one class handle declared inside other class handle then shallow copy will not work for nested class. Deep copy is the solution.  
 
 Let's take an example of a person and it's passport.
 
