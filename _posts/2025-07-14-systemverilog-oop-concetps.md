@@ -37,16 +37,56 @@ endmodule
 ```
 [class edaplayground link](https://www.edaplayground.com/x/hBJU)  
 
-Note: without creating object of class still we can access its methods. but there are conditions as follows
-1. Methods should not be virtual
-2. Methods should not contain class members
-Note2: static members/methods of class can be accessed without creating the object of class with the help of scope resolution operator. i.e ::
+Note1: without creating object of class still we can access its methods. but there are conditions as follows  
+1. Methods should not be virtual  
+2. Methods should not contain class members  
+Note2: static members/methods of class can be accessed without creating the object of class with the help of scope resolution operator. i.e ::  
 
-# Inheritance 
-Suppose you sold VIP to a customer, now customer came back to you and asked to add new features to VIP. So simply by extending existing class 
-we can add new features.
-Points to remember:
-  - Child handle can access parent's class properties and methods
-  - Parent handle can't access child's class properties.(Methods can be access with the help of polymorphism)
-  - Parent handle can point to child object i.e p=c check who is handle and who is object here..
+# Inheritance  
+Suppose you sold VIP to a customer, now customer came back to you and asked to add new features to VIP. So simply by extending existing class we can add new features.  
+Points to remember:  
+  - Child handle can access parent's class properties and methods  
+  - Parent handle can't access child's class properties.(Methods can be access with the help of polymorphism)  
+  - Parent handle can point to child object i.e p=c check who is handle and who is object here..  
   - Child cannot point to parent object i.e c=p (Possible using $cast)
+# Polymorphism  
+```verilog
+class base_transaction;
+    rand bit [31:0] payload;
+    bit parity;
+    virtual function void  calculate_parity();
+        parity = ^payload;
+        $display("base calculate_parity");
+    endfunction
+    function void post_randomize();
+        calculate_parity();
+    endfunction
+    virtual function void display();
+        $display("base_transaction txn parity = %0d, payload = %0d", parity, payload);
+    endfunction
+endclass
+
+class error_txn extends base_transaction;
+    virtual function void  calculate_parity();
+        parity = ~^payload;
+        $display("error calculate_parity");
+    endfunction
+    function void post_randomize();
+        calculate_parity();
+    endfunction
+    function void display();
+        $display("error txn parity = %0d, payload = %0d", parity, payload);
+    endfunction
+endclass
+
+initial begin
+    base_transaction b;
+    error_txn c1, c2;
+    c1 = new();
+    c1.randomize();
+    b = c1;
+    b.calculate_parity();// Error txn. wrong parity calculation will be done.
+    b.display();
+end
+
+```
