@@ -183,18 +183,50 @@ i.e address offset + total transfer should not cross 4kb boundary
 address offset = AWADDR % 4096  
 total transfer = 2^(AWSIZE) * (AWLEN + 1) 
 
+Why AWADDR % 4096, why modulo operator is used?  
+Let's do calculation without modulo operator  
+AWADDR = 7045
+AWSIZE = 2 -> 2^2=4bytes
+AWLEN = 8
+total transfer = 4 * 8 = 32bytes
+4kb boundary = 7054 + 32bytes <= 4096  //crossing the boundary but actually this is wrong.  
+Here if you see, we directly took the address without converting into 0 to 4096 range  
+To convert the given address in 4kb address space we have to take modulo of the address  
+Let's do it again  
+7054 % 4096 = 2958  
+4kb boundary = 2958 + 32bytes <= 4kb // this equation is not crossing 4kb boundary  
+
+#### Confusion on AWLEN calculation  
+AWLEN = no. of beats - 1
+no. of beats = AWLEN + 1 // we are interested in no. of beats to calculate total transfer  
+
+Now let's take an example  
+AWADDR = 1000
+AWSIZE = 2 -> 4bytes of one beat
+AWLEN = 3
+no. of beats = 3 + 1 = 4
+
+total transfer = 4 * 4 = 16bytes
+address 1000 -> 4bytes beat 0
+address 1004 -> 4bytes beat 1
+address 1008 -> 4bytes beat 2
+address 1012 -> 4bytes beat 3
+
+end address = AWADDR + 2^SIZE * (AWLEN)  
+end address = 1000 + 4 * 3 = 1012  
+
 #### Constraint for 4kb boundary  
 address offset + total transfer <= 4kb  
-awaddr % 4096 + (2^size * (awlen + 1)) <= 4096  
+awaddr % 4096 + (2^AWSIZE * (AWLEN + 1)) <= 4096  
 
 ### End address calculation for burst 
-end address = AWADDR + 2^(AWSIZE) * (AWLEN - 1)
+end address = AWADDR + 2^(AWSIZE) * (AWLEN)
 Example:  
 AWADDR = 100  
 AWSIZE = 0  
 AWLEN = 15  
-end address = AWADDR + (2^AWSIZE * (AWLEN -1))  
-            = 100 + 1 * 16 -1  
+end address = AWADDR + (2^AWSIZE * (AWLEN))  
+            = 100 + 1 * 15 
             = 115  
             
 
