@@ -30,12 +30,12 @@ R   Read data  <---
   Ready can be asserted at any time, before valid, after valid or at same time as valid
 
   #### Write transaction   
-  - The master drives the wlast signal high to indicate final data\
-      - slave either can monitor wlast or it can count all the transfered data using SIZE and LENGTH\
-      - Once all the data is received then slave give a single BRESP for all the burst\
-      - If there is any error in received data, slave has to wait for entire transfer to complete then inform master that error has occured  
+  - The master drives the wlast signal high to indicate final data  
+      - slave either can monitor wlast or it can count all the transfered data using SIZE and LENGTH  
+      - Once all the data is received then slave give a single BRESP for all the burst  
+      - If there is any error in received data, slave has to wait for entire transfer to complete then inform master that error has occured   
   #### Read transaction  
-  - For read transaction there is RRESP for every transfer in transaction because in write transaction slave has to send BRESP as separate transfer on separate channel i.e response channel. But in case of read transaction we don't have separate channel for response, instead slave uses the same channel i.e RDATA to send the response  
+  - For read transaction there is RRESP for every transfer in transaction because in write transaction slave has to send BRESP as separate transfer on separate channel i.e response channel. But in case of read transaction we don't have separate channel for response, instead slave uses the same channel i.e RDATA to send the response   
   - If an error occured, slave will respond with error message but still slave has to wait for burst to complete i.e NO EARLY BURST TERMINATION  
   #### Active transaction / Outstanding transaction  
   - READ: AR has been transfered but last read data has not been transfered i.e it is still pending(outstanding/active)  
