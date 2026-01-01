@@ -1,36 +1,36 @@
-## Systemverilog OOPs Concepts
-# Class (Encapsulates the data)
+## Systemverilog OOPs Concepts  
+# Class (Encapsulates the data)  
 It is a user defined data type. It wraps the data in single unit.  
-Everything inside the class is dynamic, to make it static use static keyword while declaring properties/methods. 
+Everything inside the class is dynamic, to make it static use static keyword while declaring properties/methods.  
 Dynamic --> User have to create memory for it.   
 Static --> Compiler will create memory for it.   
 ```verilog
-// Code your testbench here
-// or browse Examples
-module top;
-class packet;
-	int data; //it is a public member, visible to all
-	local int addr; //now this variable is not publically visible as it is declared as local. Even this class handle cannot acces this variable.
+module top;  
+class packet;  
+	int data; //it is a public member, visible to all  
+	local int addr; //now this variable is not publically visible as it is declared as local. Even this class handle cannot acces this variable.  
+	protected int ready; //this variable can't be accessed inside module, it can be accessed inside derived class  
 
-//Class constructor, even if you don't declare it compiler will add class constructor. It is used to create the object of class. 
-	function new(int addr=12, data);
+//Class constructor, even if you don't declare it compiler will add class constructor. It is used to create the object of class.  
+	function new(int addr=12, data);  
 		this.addr = addr;// this keyword is nothing but predefined handle of the class. To access the class members within the class we use this keyword  
-		this.data = data;//this.data = data is nothing but p.data = data
-	endfunction
+		this.data = data;//this.data = data is nothing but p.data = data  
+	endfunction  
   
-  function void print();
-    $display("addr = %d\n data = %d\n", addr, data);
-  endfunction
-endclass
+  function void print();  
+    $display("addr = %d\n data = %d\n", addr, data);  
+  endfunction  
+endclass  
   
-packet p; //handle/pointer/instance of a class packet. It stores the address of object.
+packet p; //handle/pointer/instance of a class packet. It stores the address of object.  
   
-initial begin
-p=new(,15); //object creation. i.e memory is created and its address is stored inside p, and all the members are initialized to their defalut value
-//addr is initialized to 12, and data is initialized to 15.
-p.print();
-p.data = 10;
-//p.addr = 12;//not allowed as addr is local to class packet. it can't be accessed outside of class.
+initial begin  
+p=new(,15); //object creation. i.e memory is created and its address is stored inside p, and all the members are initialized to their defalut value  
+//addr is initialized to 12, and data is initialized to 15.  
+p.print();  
+p.data = 10;  
+//p.addr = 12;//not allowed as addr is local to class packet. it can't be accessed outside of class, it can't be accessed inside derived class also.  
+//p.ready = 10;//not allowed as ready is protected and you can't access it inside module, you can access in derived class  
 p.print();
 end
 endmodule
