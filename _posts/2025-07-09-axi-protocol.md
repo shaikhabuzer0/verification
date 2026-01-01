@@ -1,4 +1,4 @@
-## AXI Protocol Concepts  
+f## AXI Protocol Concepts  
 It's a point to point specification.  
 5 Independant channels  
 AW  Addr Write  --->     
@@ -197,20 +197,20 @@ Let's do it again
 4kb boundary = 2958 + 32bytes <= 4kb // this equation is not crossing 4kb boundary  
 
 #### Confusion on AWLEN calculation  
-AWLEN = no. of beats - 1
+AWLEN = no. of beats - 1  
 no. of beats = AWLEN + 1 // we are interested in no. of beats to calculate total transfer  
 
 Now let's take an example  
-AWADDR = 1000
-AWSIZE = 2 -> 4bytes of one beat
-AWLEN = 3
-no. of beats = 3 + 1 = 4
+AWADDR = 1000  
+AWSIZE = 2 -> 4bytes of one beat  
+AWLEN = 3  
+no. of beats = 3 + 1 = 4  
 
-total transfer = 4 * 4 = 16bytes
-address 1000 -> 4bytes beat 0
-address 1004 -> 4bytes beat 1
-address 1008 -> 4bytes beat 2
-address 1012 -> 4bytes beat 3
+total transfer = 4 * 4 = 16bytes  
+address 1000 -> 4bytes beat 0  
+address 1004 -> 4bytes beat 1  
+address 1008 -> 4bytes beat 2  
+address 1012 -> 4bytes beat 3  
 
 end address = AWADDR + 2^SIZE * (AWLEN)  
 end address = 1000 + 4 * 3 = 1012  
@@ -220,7 +220,7 @@ address offset + total transfer <= 4kb
 awaddr % 4096 + (2^AWSIZE * (AWLEN + 1)) <= 4096  
 
 ### End address calculation for burst 
-end address = AWADDR + 2^(AWSIZE) * (AWLEN)
+end address = AWADDR + 2^(AWSIZE) * (AWLEN)  
 Example:  
 AWADDR = 100  
 AWSIZE = 0  
