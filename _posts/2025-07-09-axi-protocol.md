@@ -33,7 +33,7 @@ R   Read data  <---
   - The master drives the wlast signal high to indicate final data\
       - slave either can monitor wlast or it can count all the transfered data using SIZE and LENGTH\
       - Once all the data is received then slave give a single BRESP for all the burst\
-      - If there is any error in received data, slave has to wait for entire transfer to complete then inform master that error has occured\
+      - If there is any error in received data, slave has to wait for entire transfer to complete then inform master that error has occured  
   #### Read transaction  
   - For read transaction there is RRESP for every transfer in transaction because in write transaction slave has to send BRESP as separate transfer on separate channel i.e response channel. But in case of read transaction we don't have separate channel for response, instead slave uses the same channel i.e RDATA to send the response  
   - If an error occured, slave will respond with error message but still slave has to wait for burst to complete i.e NO EARLY BURST TERMINATION  
@@ -51,8 +51,8 @@ R   Read data  <---
 | WID\[x:0\]       | AWQOS\[3:0\], AWREGION\[3:0\], AWUSER\[x:0\], WUSER\[x:0\], BUSER\[x:0\] |
 
 ### Protection & Privilege Level Support AxPROT\[2:0\]
-0bit- Is it a data transfer or instruction transfer?(instruction or data). If the transaction is mixed of instruction and data then it is treated as data only.
-1bit- Is it accessing secured memory region or non-secured memory region?(secure/non-secure)  
+0bit- Is it a data transfer or instruction transfer?(instruction or data). If the transaction is mixed of instruction and data then it is treated as data only.  
+1bit- Is it accessing secured memory region or non-secured memory region?(secure/non-secure)   
 2bit- Is this a normal transaction or VIP transaction? (privilege/non-privilege)  
 
 ### Cache  
@@ -159,7 +159,7 @@ Unaligned address only affects the first transfer in txn, all other transfers ar
 ex:  
 AWADDR = 1   
 AWSIZE = 2 == 4BYTES  
-AWLENG = 5  
+AWLEN = 5  
 AWBURST == INCR  
 AWSTROBE = 20'hF_FFFE    
 
@@ -168,8 +168,8 @@ TOTAL DATA TRANSFER = SIZE * LEN = 4BYTES * 5 = 20BYTES out of which first byte 
 
 ### 4KB boundary  
 For each slave 4kb of address space is allotted.  
-0 to 2095KB is allocated to slave1    
-4096 to 8191 is second slave address space  
+0 to 4095KB --> slave1    
+4096 to 8191 --> slave2    
 
 So the idea is, whenever AXI is doing a write txn or read txn it should be within single slave address space, it should not cross specific slave address space  
 i.e address offset + total transfer should not cross 4kb boundary  
