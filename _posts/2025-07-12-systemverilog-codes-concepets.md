@@ -239,6 +239,46 @@ initial begin
 end
 endmodule
 ```
+
+### Frequency check assertion
+Given clk_period = 20
+```verilog
+property fcheck(int clk_period);
+time prev_t;
+@(edge) //checking only half period
+(1, prev_t = $time) |=> ( (clk_period/2) == $time - prev_time); 
+endproperty
+```
+OR
+```verilog
+property fcheck(int clk_period);  
+time prev_t;  
+@(posedge clk) //checking only half period  
+(1, prev_t = $time) |=> ( (clk_period) == $time - prev_time);  
+endproperty  
+```
+Along with tolerance of +-5% on time period  
+```verilog
+20*5/100 = 21
+i.e clk_period *(100 + tolerance)/100
+
+property fcheck(int clk_period, int tolerance);  
+time prev_t;
+time measured;
+@(posedge clk) //checking only half period  
+(1, prev_t = $time) |=> ((measured = $time - prev_time, 
+						  measured >= clk_period * (100 - tolerance)/100
+						  &&
+						  measured <= clk_period * (100 + tolerance)/100 	
+						);  
+endproperty
+
+why we added 100 to tolerance?
+clk_periode = 20
+tolerance = 5
+5/100 = 0.05 indicates its just 5% but we want 1.05 incremented version so that we can directly multiply this number with clk_period  
+(100 + 5)/100 = 105/100 = 1.05  
+```
 ## Basics
 
 left shift operation(multiplication).  
