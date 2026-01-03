@@ -300,3 +300,67 @@ temp = {4'hA, 4'b0} // result is A0
 		(8'hAF & 8'h0F); // result is 0F  
 register = temp; // AF  
 ```
+Indexing vectors and arrays
+Vector bit select/ part select slicing
+```verilog
+logic [31:0]data;
+for(int i=0; i<32; i++)begin
+	data[8*i +: 8];// data[start_index +: jumping_width/stride]
+// explore about [(x+y-1):x] for big endian
+// explore about [x:(x+y-1)] for little endian
+end
+```
+
+Q. count number of digits
+```verilog
+module test;
+int n = 1010;
+int no_of_digit=0;
+initial begin
+while(n!=0)begin //use while loop when you don't know the iteration count
+	n = n/10;
+	no_of_digit++;
+end
+$display("number of digits inside %d is %0d", n, no_of_digit);
+end
+endmodule
+```
+
+Q. sum of sum-series of n natural numbers
+```verilog
+module test;
+//sum of sum-series of first n natural numbers
+int sum, t_sum;
+int n = 3;
+initial begin
+for(int i=1; i<=n; i++)begin
+	sum = sum + i;
+	t_sum = t_sum + sum;
+end
+$display("Sum of  sum-series of %0d natural number is %0d", n, t_sum);
+end
+endmodule
+
+```
+Q. check whether number is binary or not
+```verilog
+module test;
+int n = 1010;
+int extract;
+int temp;
+initial begin
+temp = n;
+while(n!=0)begin //use while loop when you don't know the iteration count
+	extract = n % 10;
+	if(extract > 1)begin
+		$display("The given number %0d is not a binary number as it contains %0d", n, extract); 
+		break;
+	end
+	n = n/10;
+end
+if(n == 0)begin
+	$display("The given number %0b is a binary number", temp);
+end
+end
+endmodule
+```
