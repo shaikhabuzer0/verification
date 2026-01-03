@@ -372,7 +372,7 @@ end
 end
 endmodule
 ```
-Q. How to return an dynamic array from function?
+Q. How to return an dynamic array from function? and take dynamic array as input, reverse and return it.
 ```verilog
 function int foo(); //returns integer value
 function real foo();// returns real value
@@ -428,9 +428,7 @@ $display("returned value is %0d", res);
 end
 endmodule
 ```
-Q. reverse an array 
-```verilog
-```
+
 Q. reverse an array using two pointers approach
 ```verilog
 module test;
