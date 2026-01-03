@@ -310,6 +310,14 @@ for(int i=0; i<32; i++)begin
 // explore about [x:(x+y-1)] for little endian
 end
 ```
+ODD EVEN numbers
+```verilog
+check number is odd or not?
+num %2 == 1
+num[0] == 1
+num & 1'b1 == 1
+
+```
 
 Q. count number of digits
 ```verilog
@@ -340,8 +348,8 @@ end
 $display("Sum of  sum-series of %0d natural number is %0d", n, t_sum);
 end
 endmodule
-
 ```
+
 Q. check whether number is binary or not
 ```verilog
 module test;
@@ -364,3 +372,98 @@ end
 end
 endmodule
 ```
+Q. How to return an dynamic array from function?
+```verilog
+function int foo(); //returns integer value
+function real foo();// returns real value
+
+function int[] foo(); //syntax error
+
+you have to make use of typedef
+typedef int intDA_t[]; // use this array name as a return type
+
+function intDA_t foo();// will return dynamic array
+example:
+module test;
+typedef int intDA_t[];
+intDA_t result;
+int array[];
+function intDA_t foo(int da[]);
+	intDA_t temp;// its a dynamic array
+	temp = new[da.size()]; //get the size
+	for(int i=0; i<da.size(); i++)begin
+		temp[i] = da[da.size() - i - 1];// -1 because index goes from 0 to 4, and size is 5 	
+	end
+	return temp;
+endfunction
+initial begin
+array=new[5];
+result=new[5];
+array = {1,2,3,4,5};
+$display("original array %p", array);
+result = foo(.da(array));
+$display("intDA_ted array %p", result);
+end
+endmodule
+
+```
+Q. create a function that takes a dynamic array and returns the index of the target if the target is present inside the array else return -1
+```verilog
+module test;
+int res;
+int array[];
+function int foo(int da[], int target);
+	for(int i=0; i<da.size(); i++)begin
+		if(da[i] == target)begin
+			return i;
+		end
+	end
+	return -1;
+endfunction
+initial begin
+array=new[5];
+array = {1,2,3,4,5};
+res = foo(.da(array), .target(2));
+$display("returned value is %0d", res);
+end
+endmodule
+```
+Q. reverse an array 
+```verilog
+```
+Q. reverse an array using two pointers approach
+```verilog
+module test;
+int res;
+int array[];
+//to use ref keyword function must be automatic
+function automatic int foo(ref int da[]);
+	int start_index = 0;
+	int end_index = da.size()-1;
+	int temp;
+	while(start_index < end_index)begin
+		temp = da[start_index];
+		da[start_index] = da[end_index];
+		da[end_index] = temp;
+		end_index--;
+		start_index++;
+	end
+endfunction
+initial begin
+array=new[5];
+array = {1,2,3,4,5};
+$display("original array %p", array);
+foo(.da(array));
+$display("reversed array %p", array);
+end
+endmodule
+
+```
+Q. print smallest and largest number in an array along with their indices
+```verilog
+Method-1 sort the array and first and last element will be min and max
+Method-2 traditional approach without sorting, with the help of for loop iterate all elements and if found smaller or bigger element then update the varialbe
+
+```
+Q. write a function to calculate sum and product of all elements in an array
+Q. write a function to swap max and min number of an array
