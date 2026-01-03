@@ -372,7 +372,7 @@ end
 end
 endmodule
 ```
-Q. How to return an dynamic array from function? and take dynamic array as input, reverse and return it.
+Q. How to return an dynamic array from function? and take dynamic array as input, reverse(with and without streaming operator) and return it.
 ```verilog
 function int foo(); //returns integer value
 function real foo();// returns real value
@@ -394,6 +394,8 @@ function intDA_t foo(int da[]);
 	for(int i=0; i<da.size(); i++)begin
 		temp[i] = da[da.size() - i - 1];// -1 because index goes from 0 to 4, and size is 5 	
 	end
+	//reverse array without using for loop?
+	// temp = {<<32{da}}; //32 because each element in da is of 32bits i.e its declared as integer type
 	return temp;
 endfunction
 initial begin
