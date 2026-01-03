@@ -463,7 +463,90 @@ Q. print smallest and largest number in an array along with their indices
 ```verilog
 Method-1 sort the array and first and last element will be min and max
 Method-2 traditional approach without sorting, with the help of for loop iterate all elements and if found smaller or bigger element then update the varialbe
+module test;
+  int array[];
+  int smallest, largest;
+
+  initial begin
+    array = new[5];
+    std::randomize(array) with {foreach(array[i])
+                                array[i] inside {[1:100]};
+    };
+
+    $display("Array contents are %p", array);
+    smallest = array[0];
+    largest = array[0];
+
+    for(int i=0; i<array.size(); i++)begin
+      if(array[i] < smallest)begin
+        smallest = array[i];
+      end
+      if(array[i] > largest)begin
+        largest = array[i];
+      end
+    end
+    $display("smallest = %0d, largest = %0d", smallest, largest);
+  end
+endmodule
+
 
 ```
 Q. write a function to calculate sum and product of all elements in an array
+```verilog
+module test;
+  int array[];
+  int sum, product;
+
+  initial begin
+    array = new[5];
+    product = 1;
+    std::randomize(array) with {foreach(array[i])
+                                array[i] inside {[1:100]};
+    };
+    $display("Randomized array %p", array);
+    for(int i=0; i<array.size(); i++)begin
+      sum = sum + array[i];
+      product = product * array[i];
+    end
+    $display("sum = %0d, product = %0d", sum, product);
+  end
+endmodule
+
+```
 Q. write a function to swap max and min number of an array
+```verilog
+module test;
+  int array[];
+  int smallest, largest;
+  int smallest_index, largest_index;
+  int temp;
+
+  initial begin
+    array = new[5];
+    std::randomize(array) with {foreach(array[i])
+                                array[i] inside {[1:100]};
+    };
+
+    $display("Array contents are %p", array);
+    smallest = array[0];
+    largest = array[0];
+
+    for(int i=0; i<array.size(); i++)begin
+      if(array[i] < smallest)begin
+        smallest = array[i];
+        smallest_index = i;
+      end
+      if(array[i] > largest)begin
+        largest = array[i];
+        largest_index = i;
+      end
+    end
+    temp = array[smallest_index];
+    array[smallest_index] = array[largest_index];
+    array[largest_index] = temp;
+    $display("smallest = %0d, largest = %0d", smallest, largest);
+    $display("final Array contents after swap are %p", array);
+  end
+endmodule
+
+```
