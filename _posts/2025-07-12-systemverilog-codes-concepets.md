@@ -519,8 +519,32 @@ module test;
     $display("smallest = %0d, largest = %0d", smallest, largest);
   end
 endmodule
-
-
+```
+Q. Find second largest element in an array
+```verilog
+module test;
+int array[];
+int largest, second_l, temp;
+initial begin
+  array = new[5];
+  std::randomize(array) with {foreach(array[i])
+                              array[i] inside {[1:100]};};
+  $display("Initial values %p", array);
+  largest = array[0];
+  temp = array[0];
+  for(int i=0; i<array.size(); i++)begin
+    if(array[i] > largest)begin
+      largest = array[i];
+    end
+  end
+  for(int i=0; i<array.size(); i++)begin
+    if(array[i] < largest && array[i] > temp)begin
+      second_l = array[i];
+    end
+  end
+  $display("largest %0d and second largest %0d", largest, second_l);
+end
+endmodule
 ```
 Q. write a function to calculate sum and product of all elements in an array
 ```verilog
