@@ -40,20 +40,20 @@ R   Read data  <---
   <img src="{{ site.baseurl }}/asset/axi_arch.jpg" width="600" alt="AXI Flow Diagram">
 </p>
 ### Features  
-- Separate Write and Read channels maximize the bandwidth, both can work in parallel
-- Multiple outstanding addresses i.e manager can issue transactions without waiting for earlier txns to complete. It enables parallel processing of txns hence improved performance.
-- No timing relations between address and data operations i.e manager can issue AW(write address) txn but there is no restriction that when manager will provde W(write data) txn
-- Unalingned data transfer
-- Out of order txns completion i.e slave received multiple request with ID's. Slave can serve(give response back to master) any request out of order with ID's tagged
-- Burst txns i.e only single address is required i.e start address, then slave will calculate the next address based on burst
-#### Handshake
-  - Valid goes from source to destination
-  - Valid is sticky, must remain asswerted until destination accepts information
+- Separate Write and Read channels maximize the bandwidth, both can work in parallel  
+- Multiple outstanding addresses i.e manager can issue transactions without waiting for earlier txns to complete. It enables parallel processing of txns hence improved performance  
+- No timing relations between address and data operations i.e manager can issue AW(write address) txn but there is no restriction that when manager will provde W(write data) txn  
+- Unalingned data transfer  
+- Out of order txns completion i.e slave received multiple request with ID's. Slave can serve(give response back to master) any request out of order with ID's tagged  
+- Burst txns i.e only single address is required i.e start address, then slave will calculate the next address based on burst  
+#### Handshake  
+  - Valid goes from source to destination  
+  - Valid is sticky, must remain asswerted until destination accepts information  
 #### Transfer vs Transaction  
-  - Transfer: Single exchange of information with one valid and ready handshake
-  - Transaction: Write transaction, Read transaction
-#### Valid ready assertions
-  - Ready can be asserted at any time, before valid, after valid or at same time as valid
+  - Transfer: Single exchange of information with one valid and ready handshake  
+  - Transaction: Write transaction, Read transaction  
+#### Valid ready assertions  
+  - Ready can be asserted at any time, before valid, after valid or at same time as valid  
 
 #### Write transaction   
   - The master drives the wlast signal high to indicate final data  
