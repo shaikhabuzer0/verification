@@ -373,6 +373,7 @@ end
 endmodule
 ```
 Q. How to return an dynamic array from function? and take dynamic array as input, reverse(with and without streaming operator) and return it.
+Note: you can explicitly return array through function return type or we can make use of ref to update the array directly. Below one is the explicit return method
 ```verilog
 function int foo(); //returns integer value
 function real foo();// returns real value
@@ -408,6 +409,36 @@ $display("intDA_ted array %p", result);
 end
 endmodule
 
+Method 2- with the help of ref keyword, directly updating the array instead of returning explicitly -------------
+module test;
+  int array[];
+
+  function automatic swap(ref int local_a[], int i, int j);
+    int temp;
+    $display("Before swap %p", local_a);
+    temp = local_a[i];
+    local_a[i] = local_a[j];
+    local_a[j] = temp;
+    $display("After swap %p", local_a);
+  endfunction
+
+  initial begin
+    array = new[5];
+    std::randomize(array) with {foreach(array[i])
+                                array[i] inside {[1:100]};
+    };
+
+    $display("Array contents are %p", array);
+    for(int i=0; i<array.size(); i++)begin
+      for(int j=i; j<array.size(); j++)begin
+        if(array[i] > array[j])begin
+          swap(array, i, j);
+        end
+      end
+    end
+    $display("Array contents after sorting are %p", array);
+  end
+endmodule
 ```
 Q. create a function that takes a dynamic array and returns the index of the target if the target is present inside the array else return -1
 ```verilog
