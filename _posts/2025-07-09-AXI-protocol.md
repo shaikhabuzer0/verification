@@ -22,7 +22,7 @@
 
 - [4KB Boundary](#4kb-boundary)
   - [Constraint](#constraint-for-4kb-boundary)
-
+- [End address calculation](#End-address-calculation)
 
 ## AXI Channels  
 It's a point to point specification.  
@@ -39,6 +39,7 @@ R   Read data  <---
 <p align="center">
   <img src="{{ site.baseurl }}/asset/axi_arch.jpg" width="600" alt="AXI Flow Diagram">
 </p>
+
 ### Features  
 - Separate Write and Read channels maximize the bandwidth, both can work in parallel  
 - Multiple outstanding addresses i.e manager can issue transactions without waiting for earlier txns to complete. It enables parallel processing of txns hence improved performance  
@@ -46,12 +47,15 @@ R   Read data  <---
 - Unalingned data transfer  
 - Out of order txns completion i.e slave received multiple request with ID's. Slave can serve(give response back to master) any request out of order with ID's tagged  
 - Burst txns i.e only single address is required i.e start address, then slave will calculate the next address based on burst  
+
 #### Handshake  
   - Valid goes from source to destination  
-  - Valid is sticky, must remain asswerted until destination accepts information  
+  - Valid is sticky, must remain asswerted until destination accepts information
+
 #### Transfer vs Transaction  
   - Transfer: Single exchange of information with one valid and ready handshake  
-  - Transaction: Write transaction, Read transaction  
+  - Transaction: Write transaction, Read transaction
+
 #### Valid ready assertions  
   - Ready can be asserted at any time, before valid, after valid or at same time as valid  
 
@@ -245,7 +249,7 @@ end address = 1000 + 4 * 3 = 1012
 address offset + total transfer <= 4kb  
 awaddr % 4096 + (2^AWSIZE * (AWLEN + 1)) <= 4096  
 
-### End address calculation for burst 
+### End address calculation  
 end address = AWADDR + 2^(AWSIZE) * (AWLEN)  
 Example:  
 AWADDR = 100  
