@@ -581,3 +581,63 @@ module test;
 endmodule
 
 ```
+Q. Write scoreboard logic for AXI protocol
+```verilog
+module test;
+//packet structure
+typedef struct{
+  int addr;
+  int data;
+  } packet_t;
+
+  packet_t a_data[int]; //id, data 
+  packet_t r_data[int]; //id, data 
+
+  int id;
+
+  function bit compare_data(input packet_t a_data[int], packet_t r_data[int]);
+    int id;
+    //first check whether size is same and data is available?
+    if(r_data.size() == 0 || r_data.size() != a_data.size())begin
+      $display("Either data is not recieved OR complete data is not received");
+      return 0;
+    end
+
+    r_data.first(id);
+
+   // do begin
+   for(int i=0; i<r_data.size(); i++)begin
+      if(a_data.exists(id))begin
+        if(a_data[id].addr == r_data[id].addr)begin
+          if(a_data[id].data == r_data[id].data)begin
+          end else begin
+            $display("DATA MISMATCH for id= %0d actual data::%0d, received data::%0d",id, a_data[id].data, r_data[id].data);
+          end
+        end else begin
+          $display("ADDR MISMATCH for id=%0d actual addr::%0d, received addr::%0d",id, a_data[id].addr, r_data[id].addr);
+        end
+      end
+      r_data.next(id);
+    end
+    //while(r_data.next(id));
+
+  endfunction
+
+  initial begin
+    a_data = '{
+      1 : '{ addr: 32'd10, data: 100 },
+      5 : '{ addr: 32'd20, data: 200 },
+      10: '{ addr: 32'd30, data: 300 }
+      };
+    r_data = '{
+        1 : '{ addr: 32'd10, data: 100 },
+        //5 : '{ addr: 32'd20, data: 300 },
+        10: '{ addr: 32'd30, data: 300 }
+        };
+        //a_data = { 1:20, 2:30, 3:40, 10:50};
+        //r_data = { 11:20, 2:30, 3:40, 10:50};
+        compare_data(a_data, r_data);
+    end
+endmodule
+
+```
