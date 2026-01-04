@@ -1,6 +1,6 @@
-## Index
+## AXI Protocol
 
-- [AXI Protocol Concepts](#axi-protocol-concepts)
+- [AXI Channels](#axi-channels)
   - [Features](#features)
   - [Handshake](#handshake)
   - [Transfer vs Transaction](#transfer-vs-transaction)
@@ -24,7 +24,7 @@
   - [Constraint](#constraint-for-4kb-boundary)
 
 
-## AXI Protocol Concepts  
+## AXI Channels  
 It's a point to point specification.  
 5 Independant channels  
 AW  Addr Write  --->     
