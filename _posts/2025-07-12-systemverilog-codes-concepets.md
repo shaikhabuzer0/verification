@@ -277,7 +277,35 @@ why we added 100 to tolerance?
 clk_periode = 20
 tolerance = 5
 5/100 = 0.05 indicates its just 5% but we want 1.05 incremented version so that we can directly multiply this number with clk_period  
-(100 + 5)/100 = 105/100 = 1.05  
+(100 + 5)/100 = 105/100 = 1.05
+
+Now what if duty cycle is not 50%?
+t_on = 20%
+t_off = 80%
+clk_periode = t_on + t_off
+
+We will split the above assertion in two parts, one is for t_on and otherone is for t_off
+property fcheck_t_on(int clk_period, int tolerance, int t_on);  
+time prev_t;
+time measured;
+@(posedge clk) //checking only half period  
+(1, prev_t = $time) |=> ((measured = $time - prev_time, 
+						  measured >= t_on * (100 - tolerance)/100
+						  &&
+						  measured <= t_on * (100 + tolerance)/100 	
+						);  
+endproperty
+
+property fcheck_t_off(int clk_period, int tolerance, int t_off);  
+time prev_t;
+time measured;
+@(posedge clk) //checking only half period  
+(1, prev_t = $time) |=> ((measured = $time - prev_time, 
+						  measured >= t_off * (100 - tolerance)/100
+						  &&
+						  measured <= t_off * (100 + tolerance)/100 	
+						);  
+endproperty
 ```
 ## Basics
 
