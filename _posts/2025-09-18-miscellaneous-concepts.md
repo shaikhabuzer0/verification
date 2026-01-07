@@ -5,7 +5,19 @@ https://verificationacademy.com/forums/t/question-on-fork-join-with-case-stateme
 
 How to enable or disable scoreboard from sequence?
 https://stackoverflow.com/questions/28058475/disabling-a-scoreboard-from-a-sequence-using-uvm/28082459  
+```verilog
+//Below code will cause race condition, to avoid race condition use non blocking assignment.
+always@(posedge clk)begin
+  a=b;
+  b=a;
+end
 
+//Below code avoids race condition, and values will get swapped
+always@(posedge clk)begin
+  a<=b;
+  b<=a;
+end
+```
 # UCIe Protocol  
 Let's understand bandwidth, frequency, interface width calculation for UCIe protocol  
 UCIe max link speed is 32GT/s and x32 is the max lanes we can have, so let's calculate bandwidth  
