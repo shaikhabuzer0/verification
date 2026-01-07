@@ -1,11 +1,6 @@
 ## Systemverilog Coding Concepts
--[Call by value and reference](#Call-by-value-Call-by-reference--Call-by-const-reference)  
--[Static vs Automatic](#static-vs-automatic)  
--[fork join](#fork-join)  
--[Callback](#Callback)  
--[Frequency check assertion](#frequency-check-assertion)  
--[Basics](#basics)
-### Call by value, Call by reference & Call by const reference
+<details>
+	<summary><strong>Call by value, Call by reference & Call by const reference</strong></summary>
 We will talk about ref keyword in systemverilog.  
 There are two rules to use ref keyword.  
   R1- task/function must be automatic  
@@ -98,11 +93,13 @@ get_val(round_off, data);
 end
 endmodule
 ```
-
-## Static Vs Automatic  
+</details>
+<details>	
+<summary><strong>Static Vs Automatic</strong></summary>
 By default inside class properties and methods are automatic untill declared static explicitly and inside module properties and methods are static.  
 Inside class you can't explicitly mention automatic keyword, it will give compilation error.  
-But inside module you can mention static keyword explicitly and you can't declare automatic variable inside module, module is meant to be static.    
+But inside module you can mention static keyword explicitly and you can't declare automatic variable inside module, module is meant to be static.  
+
 ```verilog
 class base;
 function get(); //automatic function
@@ -113,6 +110,7 @@ base b;
 b.get();
 ```
 will it print the result? Yes, even without creating object it will print the result as there is no automatic variables accessed inside function.  
+
 ```verilog
 class base;
 function get();//automatic function
@@ -125,6 +123,7 @@ base b;
 b.get();
 b.get();
 ```
+
 will it print the result? Yes, it will print the results as we are not accessing global automatic variable, int a is local automatic variable to that function.
 
 ```verilog
@@ -153,8 +152,10 @@ b.get();
 ```
 Getting confused? So just remember the GOLDEN rule.  
 If you want to access automatic variables declared outside method, then you must create object of a class, otherwise no need to create the object of class in all other scenarios.
+</details>
 
-##Fork join_none    
+<details>
+<summary><strong>Fork join_none</strong></summary> 
 what is the output of below code?
 ```verilog
 initlal begin
@@ -194,7 +195,9 @@ $display("Outside loop");
 end
 end
 ```
-# Callback
+</details>
+<details>
+	<summary><strong>Callback</strong></summary>
 Polymorphism's advanced version is callback.
 Without changing the code, changing the behaviour of the code.  
 Callback involves virtual method, inheritance and handle assignment.  
@@ -244,7 +247,7 @@ initial begin
 end
 endmodule
 ```
-
+</details>
 ### Frequency check assertion
 Given clk_period = 20
 ```verilog
@@ -579,7 +582,8 @@ initial begin
 end
 endmodule
 ```
-Q. write a function to calculate sum and product of all elements in an array
+<details>
+<summary><strong>Q. write a function to calculate sum and product of all elements in an array</strong></summary>
 ```verilog
 module test;
   int array[];
@@ -601,7 +605,9 @@ module test;
 endmodule
 
 ```
-Q. write a function to swap max and min number of an array
+</details>
+<details>
+<summary><strong>Q. write a function to swap max and min number of an array</strong></summary>
 ```verilog
 module test;
   int array[];
@@ -636,9 +642,12 @@ module test;
     $display("final Array contents after swap are %p", array);
   end
 endmodule
-
 ```
-Q. Write scoreboard logic for AXI protocol
+</details>
+
+<details>
+<summary><strong>Q. Write scoreboard logic for AXI protocol</summary></strong>
+
 ```verilog
 module test;
 //packet structure
@@ -698,3 +707,4 @@ typedef struct{
 endmodule
 
 ```
+</details>
