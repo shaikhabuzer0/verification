@@ -110,7 +110,7 @@ endmodule
 ```
 Are you bored of doing static casting? there is a better way to do it with the help of unions..  
 ```verilog
-Convert bit[7:0] u_addr to byte s_addr
+Q. Convert bit[7:0] u_addr to byte s_addr
 typedef union packed{
 	bit[7:0] u_addr;
 	byte s_addr;
@@ -130,7 +130,7 @@ typedef struct packet{
 
 typedef union packed{
 	header_s h;
-	bit[31:0] packet; //Note inside union all members size must be same packet and h size must be same.
+	bit[31:0] packet; //Note inside union all members size must be same, packet and h size must be same.
 }
 packet_u pkt_u;
 pkt_u.packet = dut.output; //received 32bits of packet
