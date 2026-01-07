@@ -154,7 +154,7 @@ b.get();
 Getting confused? So just remember the GOLDEN rule.  
 If you want to access automatic variables declared outside method, then you must create object of a class, otherwise no need to create the object of class in all other scenarios.
 
-##Fork join
+##Fork join_none    
 what is the output of below code?
 ```verilog
 initlal begin
