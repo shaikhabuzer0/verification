@@ -11,10 +11,16 @@ always@(posedge clk)begin
   a=b;
   b=a;
 end
+always@(posedge clk)begin
+  b=a;
+end
 
 //Below code avoids race condition, and values will get swapped
 always@(posedge clk)begin
   a<=b;
+  b<=a;
+end
+always@(posedge clk)begin
   b<=a;
 end
 ```
