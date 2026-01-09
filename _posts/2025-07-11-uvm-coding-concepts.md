@@ -50,3 +50,65 @@ run: sim
 dump:
         vsim -gui -view wave.wlf
 ```
+#Virtual sequence and Virtual sequencer
+
+what is stimulus coordination?
+Suppose I have two drivers inside my environment, one is apb and other is ucie, first I want to configure CSR space of ucie and then drive the ucie flits.
+inside my testcase, first I will start  
+apb_seq.start(apb_seqr);  
+ucie_seq.start(ucie_seqr);  
+here, instead of providing the complete path of sequencer, I am just giving the name of the sequencer, this is possible because the concept of virtual sequence and sequencer.  
+
+class apb_txn extends uvm_sequence_item;
+addr;
+data;
+endclass
+
+class ucie_txn extends uvm_sequene_item;
+rand typedef enum{68B_flit, 256B_LOPT_FLIT, 256B_STD_HDR_FLIT} flits;
+endclass
+
+class vsequencer extends uvm_sequencer;
+apb_seqr;
+ucie_seqr;
+endclass
+
+class env extends uvm_env;
+vsequencer vseqr_h;
+apb_agent apb_agt;
+ucie_agent ucie_agt;
+//connect 
+vseqr_h.apb_seqr = apb_agt.apb_seqr;
+vseqr_h.ucie_seqr = ucie_agt.ucie_seqr;
+endclass
+
+class vsequence_base extends uvm_sequence;//by default it will get parameterized with uvm_sequence_item
+vsequencer vseqr_h;
+// or 
+`uvm_declare_p_sequencer(vsequencer) it is same as
+vsequencer p_sequencer 
+and $cast(p_seqeuncer, m_sequencer)
+//
+
+apb_sequencer apb_seqr;
+ucie_sequencer ucie_seqr;
+
+apb_seqr = vseqr_h.apb_seqr;
+ucie_seqr = vseqr_h.ucie_seqr;
+
+//OR apb_seqr = p_sequencer.apb_seqr;
+endclass
+
+class vsequence extends vsequence_base;
+apb_sequence apb_seq;
+ucie_sequence ucie_seq;
+
+apb_seq.start(apb_seqr);
+ucie_seq.start(ucie_seqr); 
+
+endclass
+
+class test;
+vsequence vseq;
+vseq.start(env.vseqr_h);
+endclass
