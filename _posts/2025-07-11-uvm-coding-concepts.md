@@ -50,15 +50,16 @@ run: sim
 dump:
         vsim -gui -view wave.wlf
 ```
-#Virtual sequence and Virtual sequencer
+# Virtual sequence and Virtual sequencer
 
-what is stimulus coordination?
-Suppose I have two drivers inside my environment, one is apb and other is ucie, first I want to configure CSR space of ucie and then drive the ucie flits.
+what is stimulus coordination?  
+Suppose I have two drivers inside my environment, one is apb and other is ucie, first I want to configure CSR space of ucie and then drive the ucie flits.  
 inside my testcase, first I will start  
 apb_seq.start(apb_seqr);  
 ucie_seq.start(ucie_seqr);  
 here, instead of providing the complete path of sequencer, I am just giving the name of the sequencer, this is possible because the concept of virtual sequence and sequencer.  
 
+```verilog
 class apb_txn extends uvm_sequence_item;
 addr;
 data;
@@ -106,7 +107,8 @@ ucie_sequence ucie_seq;
 apb_seq.start(apb_seqr);
 ucie_seq.start(ucie_seqr); 
 
-endclass
+endclass  
+```
 
 class test;
 vsequence vseq;
