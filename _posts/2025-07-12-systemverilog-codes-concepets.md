@@ -203,7 +203,8 @@ end
 	<summary><strong>Callback</strong></summary>
 Polymorphism's advanced version is callback.
 Without changing the code, changing the behaviour of the code.  
-Callback involves virtual method, inheritance and handle assignment.  
+Callback involves virtual method, inheritance and handle assignment.    
+
 ```verilog
 module test;
 typedef enum{GOOD, BAD1, BAD2} pkt_type;
@@ -250,7 +251,9 @@ initial begin
 end
 endmodule
 ```
+
 </details>
+
 ### Frequency check assertion
 Given clk_period = 20
 ```verilog
@@ -260,7 +263,9 @@ time prev_t;
 (1, prev_t = $time) |=> ( (clk_period/2) == $time - prev_time); 
 endproperty
 ```
+
 OR
+
 ```verilog
 property fcheck(int clk_period);  
 time prev_t;  
