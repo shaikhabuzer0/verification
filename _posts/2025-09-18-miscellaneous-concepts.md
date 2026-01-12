@@ -65,6 +65,37 @@ header   --> includes length[7:2] and addr[1:0] i.e 2bit of address but only 0,1
 payload  parity = parity ^ payload[i]  
 parity  --> 8bits parity = parity ^ header  
 
+Transaction class
+```verilog
+rand logic[7:0] header;
+rand logic[7:0] payload[];
+logic [7:0] parity;
+
+constraints
+0. header[1:0] should not get value equal to 3
+constraint inval_addr{
+  header[1:0] != 3;
+}
+
+1. length must be not 0
+constraint val_len{
+  header[7:2] > 0;
+}
+
+2. payload size should be equal to header[7:2]
+constraint payload_size{
+  payload.size == header[7:2];
+}
+
+post_randomize()
+parity = parity ^ header;
+for(int i=0; i<header[7:2]; i++)begin
+parity = parity ^ payload[i];
+end
+
+
+```
+
 Driving logic 
 ```verilog
 
