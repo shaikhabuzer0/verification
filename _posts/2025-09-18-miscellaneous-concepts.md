@@ -45,7 +45,7 @@ Simillarly, if we want 2 GHz frequency then we have to make adjustments in inter
 
 # 1x3 Router  
 interface signals are listed below  
-
+we need 1 agent which is driving packets to router dut and 3 agents to capture these packets  
 ```verilog
 logic clk;
 logic reset_n;
@@ -53,7 +53,7 @@ logic reset_n;
 logic [7:0] data_in; //data to be routed
 logic pkt_valid; // valid packet
 
-logic read_en;
+logic read_en; //read agent will drive this signal, and it's monitor will capture the data and send it to the scoreboard  
 logic [7:0] data_out; // output data
 logic vld_out; // output data is valid
 
@@ -64,6 +64,17 @@ packet structure is as follows
 header   --> includes length[7:2] and addr[1:0] i.e 2bit of address but only 0,1,2 are valid as we have only 3 destinations   length is of 6bits which means 2^6=64bytes of data we can transfer   
 payload  parity = parity ^ payload[i]  
 parity  --> 8bits parity = parity ^ header  
+
+Testscenarios  
+0. check address decoding logic  
+1. check error signal by injecting parity error  
+2. check payload len, corner scenarios like len=0 , len=1 and len=63, len=64  
+3. corrupt parity  
+4. send packet when busy is high  
+5. multiple pakcets of same len  
+6. multiple packets of different len
+7. valid check, send packet without valid high
+
 
 Transaction class
 ```verilog
@@ -128,5 +139,37 @@ intf.data_in <= req.parity;
 @(posedge clk)
 
 endtask
+
+```
+Driving and monitoring logic for read agent
+
+```verilog
+driver
+
+run_phase();
+wait(vld_out)
+one cycle delay
+read_en<=1;
+wait(vld_out)
+one cycle delay
+read_en<=0;
+
+monitor
+run_phase();
+forever
+collect_data();
+
+collect_data();
+wait(read_en)
+once cycle delay
+txn.header=vif.header;
+for loop
+once cycle delay
+txn.payload[i] = vif.payload[i];
+
+once cycle delay
+txn.parity = vif.parity;
+once cycle delay
+ap_r.write(txn); //analysis port broadcasting
 
 ```
