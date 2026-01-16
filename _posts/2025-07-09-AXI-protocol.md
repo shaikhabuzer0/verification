@@ -317,8 +317,61 @@ Out of order(outstanding) txn concept is related with bresp and rresp
 17. Cover even and odd multiples of 10 within 0 to 100 rand bit[6:0] data;
 18. Cover all combinations of signal data and addr which is 1bit, i.e rand bit addr, data;
 19. Cover binary vector values with an even number of 1's, rand bit[3:0] data;
-20.Cover different length of burst transactions of AXI, rand bit[7:0] awlen; rand bit[1:0]awburst;
+20. Cover different length of burst transactions of AXI, rand bit[7:0] awlen; rand bit[1:0]awburst;
 
 ## Assertion  
-
+1. What are the regions where assertions gets executed
+2. Difference between SIA, DIA, Concurrent Assertions, Why concurrent assertions are preferred over other methods?
+3. What are the layers in concurrent assertions? Explain in detail.
+4. What is single thread and multiple threads in assertion? which blocks to use for this behaviour?
+5. list down the edge sample functions and explain them
+6. $rose for single bit and multi bit variable
+7. Explain $past with all arguments
+8. WAST if a asserts, b must assert in next clock cycle
+9. WAST each request must be followed by ack
+10. WAST if rst deassert, CE must assert in same clock tick
+11. WAST wr_req must be followed by rd_req
+12. WAST current value of addr must be one greater than previous value if start asserts.
+13. WAST if rst deassert, dout mst be zero
+14. If load_in deassert, dout must be equal to load value
+15. If rst deassert, output of the shift register must be shifted to left by one in the next clock tick
+16. if rst deassert, current value and past value of the signal(a) differ only in signle bit
+17. In DFF, output must remain constant if CE is low
+18. In TFF if CE assert, output must toggle
+19. What is the difference between following two expressions?
+req |=> ack      vs     $rose(req) |=> $rose(ack)
+**Note: Delay operator with infinite range is weak i.e it won't throw error if it fails, use strong keyword**
+example: req |->##[1:$] ack; // when req is high then from next cycle to end of simulation ack should be high anytime
+in above example if ack is not becoming high for all time then we will not get error, to get error use strong keyword
+req |->strong(##[1:$]ack);
+21. List down all repetition operators
+23. When wr is asserted then after 2 clock tick rd should go high for consecutive 2 tick24.
+24. Explain detail below assertion, what is importance of tail expression min and max values  
+$rose(rd) |-> rd[*2:5]##1 !rd   
+25. Are non consecutive operator weak in nature?
+26. Explain a[=1:4] ##1 b;
+27. if a deassert then it should deassert twice followed by a assert
+28. a deassert twice NC then in next cycle a must asssert
+29. wr_req must be followed by rd_req, if rd_req do not assert before timeout then system should reset
+30. wr must be followd by rd in next clock tick
+31. if a assert, b must assert in 5 clock ticks
+32. if rst deassert then CE must assert within 1 to 3 clock ticks
+33. if req assert and ack not received in three clock tick then req must reassert
+34. if a assert, a must remain high for 3 clock
+35. system operation must start with rst asserted for 3 cons clock
+36. CE must assert somewhere during simulation if reset deassert
+37. txn start with CE become high and end with CE becomes low each txn must contain atleast once read and write req
+38. if CE assert somewhere after rst deassert then we must receive atleast one write request
+39. a must assert twice during simulation
+40. if a become high somewhere then b mus become high in the immediate next clock tick
+41. if req is received and all the data is sent to slave indicated by done signal then ready must be high in the next clock
+42. if b deassert then b must remain false for 3 cons ticks
+43. if a assert then a should be followed by c within 1 to 4 clock
+44. if a become true in current clock then c must become true within 1 to 4 clock followed by b becoming true in next clock
+45. if CE assert then it must deassert within 5 to 10 clock cycles
+46. if CE assert it must remain stable for 7 cons cycle
+47. if rst deassert and CE assert then read must stay high for 2 clock when user receive rd_req
+48. if rd assert then addr must remain stable for 3 cons clock 
+49. Write assertion such that req must be followed by ack in next clock cycle
+51. Write assertion such that read and write request must not occur at same time
 
