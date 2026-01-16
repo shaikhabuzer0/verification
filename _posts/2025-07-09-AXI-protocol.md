@@ -290,3 +290,35 @@ if(awsize == 2) $counones(wstrobe) == 4
 
 Interleaving concept is related with burst wdata and rdata  
 Out of order(outstanding) txn concept is related with bresp and rresp  
+
+## Driver code
+
+
+
+## pieplined driver concept 
+
+## Functional coverage  
+1. What are the methods to sample the values for coverage
+2. Why we need conditional coverage
+3. what is option.per_instance and option.auto_bin_max
+4. What is implicit, explicit, default, vector, scalar bins
+5. What is procedural code and declarative code
+6. How duplicate values are handled in case of vector bins
+7. How to filter values of variable, example how do you create bins to cover only odd numbers, or even numbers etc?
+8. Why do we need ignore bins, what is it's use case
+9. What is illegal bins
+10. How do you handle presence of X and Z values, explain with example
+11. What is the purpose of weights of coverpoint
+12. Explain cross coverage with different examples
+13. How to filterout specific combinations from cross coverage?
+14. What is transitions bins, and its representation
+15. Write coverpoints for full adder
+16. Cover all values of a random variable between 0 and 100 rand bit[6:0] data;
+17. Cover even and odd multiples of 10 within 0 to 100 rand bit[6:0] data;
+18. Cover all combinations of signal data and addr which is 1bit, i.e rand bit addr, data;
+19. Cover binary vector values with an even number of 1's, rand bit[3:0] data;
+20.Cover different length of burst transactions of AXI, rand bit[7:0] awlen; rand bit[1:0]awburst;
+
+## Assertion  
+
+
