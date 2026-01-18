@@ -654,6 +654,58 @@ endmodule
 </details>
 
 <details>
+	<summary>
+		<strong>
+			Q. generate prime numbers between 1 to 100			
+		</strong>
+	</summary>
+
+```verilog
+	module top;
+class cons;
+    randc int num;
+    int result, flag;
+    constraint value_c{
+        num inside {1, 3, 5, 7, 10, 11, 12, 13, 14, 15};
+        }
+
+        function int prime(int num);
+            //0 and 1 are not prime numbers
+            if(num == 0 || num == 1)begin
+                $display(" %0d is not prime numbers", num);
+                return 0;
+            end
+
+            // number should not be divisible by itself
+            for(int i=2; i<num/2; i++)begin
+                if(num%i==0)begin
+                    $display("The given number=%d is not a prime number %0d/%0d==0", num, num,i);
+                    flag = 1;
+                    return 0; //if its not prime number then return 0 value
+                end
+            end
+            if(flag == 0)begin
+                $display("The given number %0d is prime number", num);
+            end
+        endfunction
+        function void post_randomize();
+            result = prime(num);
+        endfunction
+
+endclass
+
+    cons c;
+    initial begin
+        c = new();
+        repeat(20)begin
+            c.randomize();
+        end
+    end
+endmodule
+```
+</details>
+
+<details>
 <summary><strong>Q. Write scoreboard logic for AXI protocol</summary></strong>
 
 ```verilog
