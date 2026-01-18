@@ -286,14 +286,35 @@ if(awsize == 0) $counones(wstrobe) == 1
 if(awsize == 1) $counones(wstrobe) == 2  
 if(awsize == 2) $counones(wstrobe) == 4  
 
-
-
+Note:
 Interleaving concept is related with burst wdata and rdata  
-Out of order(outstanding) txn concept is related with bresp and rresp  
+Out of order(outstanding) txn concept is related with bresp and rresp 
 
+## Assertions for AXI
+
+```verilog
+1. write assertion for valid ready handshake i.e awvalid and awaddr must remain stable until awready comes
+(awvalid && !awready) |-> (awvalid && $stable(awaddr))
+
+2. awid must remain stable when awvalid is asserted and awready is low
+$rose(awvalid) && !awready |-> $stable(awid);
+
+3. A value of X on AWID is not permitted when AWVALID is HIGH
+awvalid |-> !($isunknown(awid));
+
+4. A write burst cannot cross a 4KB boundary
+total transfer of data in bytes <=4096
+total transfer of data in bytes = 2^awsize * awlen + 1
+
+property boundary;
+@(posedge clk)
+((awaddr%4096 + (2**awzie * awlen + 1)) <= 4096);
+endproperty
+```
+
+## Functional Coverage for AXI
+ 
 ## Driver code
-
-
 
 ## pieplined driver concept 
 
@@ -436,5 +457,4 @@ $rose(rd) |-> rd[*2:5]##1 !rd
 54. if a is asserted then b can be high anytime after 3 clock cycles
 55. if a is asserted then from next cycle b can be high anytime, once b asserted c can be asserted anytime
 56. if signal start is asserted then from next cycle signal a stays high for 3 consecutive cycles and after one cycle signal stop should be high
-57. 
 
