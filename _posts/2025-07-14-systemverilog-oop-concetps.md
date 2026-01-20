@@ -92,3 +92,41 @@ initial begin
 end
 
 ```
+by adding 2 more lines we can convert the code in calllback mechanism  
+
+```verilog
+module test;
+class transaction;
+    rand bit [31:0] payload;
+    bit parity;
+    
+    virtual function void  calculate_parity();
+        $display("Calculating parity");
+        parity = ^payload;
+        modify_parity();
+    endfunction
+
+    virtual function void modify_parity();
+    endfunction
+
+endclass
+
+class error_txn extends transaction;
+    virtual function void  modify_parity();
+        $display("Injecting error in parity");
+        parity = ~^payload;
+    endfunction
+endclass
+
+initial begin
+    transaction txn;
+    error_txn err_txn;
+    err_txn = new();
+    txn = new();
+    txn = err_txn; //if you don't do handle assignment, then error won't get injected
+    txn.calculate_parity();// Error txn. wrong parity calculation will be done.
+end
+
+endmodule
+
+```
