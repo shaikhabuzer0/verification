@@ -89,15 +89,16 @@ If you divide integer by integer you will get integer value. i.e 2/2=1 and 3/2=1
 so the formula is (i+2)/2
 
 METHOD-2
-Consider the below 3bit binary numbers, if we ignore the LSB bit then we will get the desired pattern.
-00 0
-00 1
-01 0
-01 1
-10 0
-10 1
-11 0
-11 1
+Consider the below 3bit binary numbers, if we ignore the LSB bit then we will get the desired pattern.  
+00 0  
+00 1  
+01 0  
+01 1  
+10 0  
+10 1  
+11 0  
+11 1  
+
 ```verilog
 class pattern_gen;
  rand int a[];
