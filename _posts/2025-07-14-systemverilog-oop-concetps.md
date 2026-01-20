@@ -49,7 +49,9 @@ Points to remember:
   - Parent handle can't access child's class properties.(Methods can be access with the help of polymorphism)  
   - Parent handle can point to child object i.e p=c check who is handle and who is object here..  
   - Child cannot point to parent object i.e c=p (Possible using $cast)
+
 # Polymorphism  
+
 ```verilog
 class base_transaction;
     rand bit [31:0] payload;
