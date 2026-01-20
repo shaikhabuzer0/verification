@@ -991,6 +991,104 @@ initial begin
     //end
 end
 endmodule
+module test;
+class test;
+rand bit data[4][4];
 
+constraint test_c{
+    foreach(data[i])
+        foreach(data[i][j])
+            data[i][j] == (!i[0]) ^ j[i[31:1]];
+        }
+function void post_randomize();
+$display("value is %p", data);
+endfunction
+//constraint values_c{
+//    foreach(data[i])
+//        display(i);
+//        }
+//        function int display(int i);
+//            fork
+//                $display("data is %d", data[i]);
+//            join_none
+//                return 1;
+//        endfunction
+endclass
+
+test t;
+initial begin
+t=new;
+t.randomize();
+end
+endmodule
 
 ```
+1. Write constraint to generate 01010101 pattern, 11110000  
+x. Write constraint for power of 9 power of 3  
+x. write constraint such that for two 4bit variables a and b, lsb of a and lsb of b should not be equal.  
+x. constraint for 2 3 4 5 6 7 8 9 10 11 12 13 14 15  
+x. generate 888887777766666555554444433333222221111100000  
+x. mobile number first 4 digits must be 8919  
+23. Write a constraint so that if we randomize a single bit variable for 10 times values should generate be like 101010101010.  
+35. Write a constraint on a 16 bit rand vector to generate alternate pairs of 0's and 1's.  //Ans:Ex:0011.. or 1100..  
+2. 1234554321, 123404321, 1010110101, 11101110, 000111222333, 123123123, 11001100110011001100, 00110011001100110011, 1,22,3,33,5,44,7,55, 1,11,3,22,5,33,7,44,9,55  
+1,22,3,44,5,66,7,88,7,66,5,44,3,22,1  
+01002000300004  
+x. write a constraint for two random variables such that one variable does not match the other and five bits are toggled  
+x. write a constraint for generating a gray code sequcne of 5bits  
+x. write a constraint such that all elements in an array are powers of 2 and sorted in descending order  
+  
+3. 9 19 29 39 49 ..    and 9 99 999 9999 99999  
+4. 5 -10 15 -20 25 -30...  
+5. 1122334455....  
+49. 9966631002  
+6. generate random number between 1.35 to 2.57  
+7. 0102030405  
+8. 25 27 30 36 40 45 without using set membership  
+9. generate random even number between 50 to 100  
+10. for 32bit rand variable it should have 12 number of 1's non consecutively  
+11. factorial of first 5 even numbers and odd numbers  
+12. Write constraint such that even location should containt odd numbers and odd locations should contain even numbers  
+13. for 32bit variable randomize only 12th bit  
+14. Write a constraint on two dimensional array for generating even numbers in the first 4 locations and odd numbers in the next 4 locations.Also the even number should be in multiple of 4 and odd number should be multiple of 3.  
+15. Constraint to generate bit[7:0] array1[10] with unique values and also multiple of 3  
+16. Write a constraint to generate unique numbers in an array without using unique keyword.  
+17. Write a constraint to generate prime numbers between the range of 1 to 100  
+18. Write a constraint to generate a variable with 0-31 bits should be 1, 32-61 bits should be 0.  
+19. Write a constraint to generate consecutive elements using Fixed size array and also write the constraint to generate non consecutive elements?  
+20. write a constraint to randmoly genrate 10 unquie numbers between 99 to 100.  
+21. Write a constraint sunch that array size between 5 to 10 values of the array are in asscending order.  //In this program Iam going to use extern constraint.  
+22. Write a constraint to generate even numbers should in the range of 10 to 30 using Fixed size array, Dynamic array & Queue.  
+24. Write a constraint to demonstrate solve before constraint.  
+25. Write a code to generate unique elements in an array without using unique keyword and constraints  
+  
+26. Write a constraint for 2D dynamic array to print consecutive elements.  
+27. Constraint to check whether the randomized number is palindrome or not  
+28. Write a constraint to display the fibonacci sequence. and reverse fibonacci series  
+29. Write a code to check whether the randomized number is an armstrong number or not.  
+30. Write a constraint so that the elements in two queues are different.  
+31. Constraint for 0-100 range is 70% and 101-255 range is 30%  
+32. Write a constraint for 16-bit variable such that no two consecutive ones should be generated.  
+33. Write a constraint to generate 32 bit number with 1 bit high using $onehot().  
+34. Write a constraint to randomly generate unique prime numbers in an array between 1 and 200. The generated prime numbers should have 7 in it.  
+36. Write a constraint such that sum of any three consecutive elements in an array should be an even number.  
+37. Write a constraint for two random variables such that one variable should not match with the other & the total number of bits toggled in one variable should be 5 w.r.t the other.  
+38. Write a constraint such that when rand bit[3:0] a is randomized, the value of "a" should not be same as 5 previous occurrences of the value of "a".  
+39. Write a code to have the cyclic randomization behaviour without using the randc keyword.  
+40. Write constraint for payload such that the size should be randomly generated in between 11 and 22 and each value of the payload should be grater than previous value by 2.  
+41. Write a constraint to print unique elements in a 2D array without using unique keyword.  
+42. Sorting the elements in the dynamic array using constraints. // not a constraint question  
+43. Write a constraint to generate 1221122112211.....  
+write constraint to generate pattern 021346578  
+  
+----------------------2D----------------------------  
+44. constraint for {1000, 0100, 0010, 0001} diagonal matrix when i and j are equal make it 1 else 0  
+45. constraint for {1111, 1110, 1100, 1000} matrix  
+46. {1010, 0101, 1100, 0011}  
+47. 0001, 0010, 0100, 1000  
+48. 1234, 2341, 3421, 4123  
+50. {{1,0,2,0,},{0,3,0,4},{5,0,6,0},{0,7,0,8}}  
+51. constraint for 5*5 matrix such that last coloumn is sum of previous coloumns   
+  
+------------------array manipulator--------------  
+  
