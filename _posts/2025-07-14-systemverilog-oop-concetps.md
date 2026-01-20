@@ -101,12 +101,17 @@ class transaction;
     bit parity;
     
     virtual function void  calculate_parity();
-        $display("Calculating parity");
+        $display("Calculating parity...");
         parity = ^payload;
+        $display("Done parity is %b", parity);
         modify_parity();
     endfunction
 
     virtual function void modify_parity();
+    endfunction
+
+    function void post_randomize();
+      calculate_parity();
     endfunction
 
 endclass
@@ -115,6 +120,7 @@ class error_txn extends transaction;
     virtual function void  modify_parity();
         $display("Injecting error in parity");
         parity = ~^payload;
+        $display("Done parity is %b", parity);
     endfunction
 endclass
 
@@ -124,9 +130,10 @@ initial begin
     err_txn = new();
     txn = new();
     txn = err_txn; //if you don't do handle assignment, then error won't get injected
-    txn.calculate_parity();// Error txn. wrong parity calculation will be done.
+    txn.randomize();// Error txn. wrong parity calculation will be done.
 end
 
 endmodule
+
 
 ```
