@@ -201,7 +201,8 @@ end
 </details>
 <details>
 	<summary><strong>Callback</strong></summary>
-Polymorphism's advanced version is callback.
+	
+Polymorphism's advanced version is callback.  
 Without changing the code, changing the behaviour of the code.  
 Callback involves virtual method, inheritance and handle assignment.    
 
