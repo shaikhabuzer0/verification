@@ -158,44 +158,30 @@ reversed = {<<{variable}}; //that's it.
 end
 endmodule
 ```
+NOTE:
+//pre_randomize is to perform constraint overriding if needed  
+//post_randomize is for modifying randomization results  
+//in constraint you can't use begin end block to write multiple lines, you  
+//have to use curly braces instead of begin end  
+//$onehot, $countbits, $countones  
+
+Q5. Generate consecutive numbers
 ```verilog
 module test;
     int result=1;
-//pre_randomize is to perform constraint overriding if needed
-//post_randomize is for modifying randomization results
-//in constraint you can't use begin end block to write multiple lines, you
-//have to use curly braces instead of begin end
-//$onehot, $countbits, $countones
-
 class cons_problems;
     rand int array[];
     int dummy[$];
     constraint size_c { array.size == 50;}
     //constraint size_d { dummy.size == 50;}
-/*
-//generate consecutive elements
+
     constraint values_c{
         array[i]== i;
         }
-*/
+```
+Q6. Generate pattern 1234554321
 
-/*
-//pattern 01010101010101
-    //constraint value_c {
-    //    foreach(array[i])
-    //        array[i]==i[0];
-    //    }
-    constraint value_c {
-        foreach(array[i])
-            if(i%2==0) //even number
-                array[i] == 0;
-            else
-                array[i] == 1;
-        }
-*/
-
-/*
-//pattern 1234554321
+```verilog
     constraint value_c {
         foreach(array[i])
             if(i < 5)
@@ -203,21 +189,20 @@ class cons_problems;
             else 
                 array[i] == 10 - i;
 
-        } 
-*/
+        }
+```
 
-/*
-//9 19 29 39 49 59 ...
+Q7. Generate 9 19 29 39 49 59 ...
 
+ ```verilog
     constraint value_c{
             foreach(array[i])
                 array[i] == i*10+9;
     }
-*/
+```
+Q8. 5 -10 15 -20 25 -30
 
-/*
-//5 -10 15 -20 25 -30
-
+```verilog
     constraint value_c{
         foreach(array[i])
             if(i%2==0)
@@ -227,19 +212,19 @@ class cons_problems;
                 //array[i] == -5*i;//adding 1 as it is starting from 5 not from 0
                 array[i] == -5*(i+1);//adding 1 as it is starting from 5 not from 0
             }
-*/
+```
 
-/*
-//1122334455...
+Q9. 1122334455...
 
+```verilog
     constraint value_c{
         foreach(array[i])
             array[i] == ((i+2)/2);
         }
-*/
+```
 
-/*
-//1.35 and 2.57
+Q10. 1.35 and 2.57
+```verilog
     real array_r[10];
     constraint value_c{
         foreach(array[i])
@@ -254,7 +239,7 @@ class cons_problems;
             $display("Value after randomization is %p", array_r);
             $display("----------------------------------------------------------------------------");
         endfunction
-*/
+
 /* //for below code you have to randomize class multiple times to get the  results
 rand int a;
 real b;
@@ -268,10 +253,9 @@ real b;
         $display("Value after randomization is %f", b);
         $display("----------------------------------------------------------------------------");
     endfunction
-*/
+```
 
-/*
-//010203040506...
+Q11. 010203040506...
 
     constraint value_c{
         foreach(array[i])
@@ -280,10 +264,11 @@ real b;
             else
                 array[i] == (i+2)/2;
             }
-*/
+```
 
-/*
-// 25 27 30 36 40 45
+Q12. 25 27 30 36 40 45
+
+```verilog
 // to generate exact sequence you can use array and post randomize function
  int result[6];
  int counter=0;
@@ -307,10 +292,11 @@ function void post_randomize();
     $display("Value after randomization is %p", result);
     $display("----------------------------------------------------------------------------");
 endfunction
-*/
+```
 
-/*
-// 25 27 30 36 40 45
+Q13. 25 27 30 36 40 45
+
+```verilog
 // this problem can be solved without using array, you have to randomize the class multiple times
 // there is no gurantee that it will follow the exact sequence
 
@@ -327,11 +313,11 @@ rand int data;
         $display("Value after randomization is %p", data);
         $display("----------------------------------------------------------------------------");
     endfunction
-*/
+```
 
-/*
-// random even number between 50 100 wihout 
+Q14. random even number between 50 100 wihout 
 
+```verilog
     constraint value_c{
         foreach(array[i])
             array[i] inside {[50:100]};
@@ -340,11 +326,11 @@ rand int data;
         foreach(array[i])
             array[i]%2==0;
         }
+```
 
-*/
+Q15. in 32bit variable, number of 1's should be 12 non consecutively
 
-/*
-//in 32bit variable, number of 1's should be 12 non consecutively
+```verilog
 //print vriable in binary format
    rand bit[31:0] a;
     constraint value_c{
@@ -361,9 +347,11 @@ rand int data;
         $display("Value after randomization is %b", a);
         $display("----------------------------------------------------------------------------");
     endfunction
-*/
-/*
-//factorial numbers
+```
+
+Q16. factorial numbers
+
+```verilog
     //constraint size_c{
     //    array.size == 5;
     //    }
@@ -390,11 +378,11 @@ rand int data;
             factorial = num * factorial(num -1);
         end
     endfunction
-*/
+```
 
-/*
-//odd numbers at even location and even numbers at odd locations
+Q17. odd numbers at even location and even numbers at odd locations
 
+```verilog
     //constraint values_c{
     //    foreach(array[i])
     //        if(i%2==0)
@@ -409,11 +397,11 @@ rand int data;
             else
                 array[i]%2==0;
             }
-*/
+```
 
-/*
-//  randomize only 12th bit out of 32bits rest of the bits should be 0s
+Q18. randomize only 12th bit out of 32bits rest of the bits should be 0s
 
+```verilog
 rand bit[31:0] variable;
     constraint values_c{
         foreach(variable[i])
@@ -427,7 +415,7 @@ rand bit[31:0] variable;
         $display("Value after randomization is %b", variable);
         $display("----------------------------------------------------------------------------");
     endfunction
-*/
+```
 // Q14 visit again
 
 /*
