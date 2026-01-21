@@ -3,6 +3,8 @@
 **Desired value:** the value which you want to write into the hardware register  
 **Mirrored value:** the value which is actually present inside the hardware register, this value gets updated after each write/read txn
 
+Note: to get the actual values of dut register we have to make use of predictor, otherwise we won't be able to know the dut register values, or we won't be able to use get_mirrored_value(), mirrored() methods. One can enable implicit predictor using set_auto_preci(1) method  
+
 Example:  
 initially both values are 0's  
 desired=0, dut=0, mirrored=0  
@@ -175,3 +177,28 @@ endclass
   endtask
 endclass
 ```
+Methods before transaction(these methods won't update the actual dut register values)     
+to update desired value we have two methods - set() and get()  
+to update mirrored value we have one method - get_mirrored_value()  
+
+Methods after transaction(these methods will update the actual dut register values)    
+These methods will update both desired and mirrored values  
+Front door methods  
+write()
+read()
+
+update()-> Desired and mirrored are two variables which store some data.  
+-	**desired variable** store the data that you want to write into hardware register  
+- 	**mirrored variable** stores the data that is already present inside the hardware register  
+-	**update method** will first check whether these variables are holding same value or not? if both variables have same value then it won't initiate any transaction, if values are not same then it will initiate a write transaction to update the dut register value with desired value.    
+
+predict() this method won't perform any transaction to dut. It updates both desired as well as mirrored value. its advance version of set() method. set method only updates desired value but predict method updates both values 
+
+mirror() it performs read transaction to dut, and it compares existing mirror value with dut value, if both are not same then it will throw error and updates the mirror value, internally it calls predict method
+
+randomize()
+
+Backdoor methods
+peek()
+poke()
+
