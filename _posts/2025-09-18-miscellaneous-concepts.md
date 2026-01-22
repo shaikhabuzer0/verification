@@ -173,3 +173,128 @@ once cycle delay
 ap_r.write(txn); //analysis port broadcasting
 
 ```
+
+## APB Protocol Verification
+```verilog
+task run_phase(uvm_phase phase);
+  drive_reset();
+  forever begin
+    seq_item_port.get_next_item();
+    if(tr.pwrite == 1)begin
+      drive_write();
+    end else begin
+      drive_read();
+    end
+    seq_item_port.item_done();
+  end
+endtask
+
+task drive_write();
+  //setup phase
+  intf.psel <= 1;
+  intf.pwrite <= 1;
+  intf.paddr <= tr.paddr;
+  intf.pwdata <= tr.pwadata;
+  //access phase
+  @(posedge pclk);
+  intf.penable <= 1;
+  while(intf.pready == 0) @(posedge pclk);
+  tr.pslverr <= intf.pslverr;
+  intf.penable <= 0;
+endtask
+
+task drive_read();
+  //setup phase
+  intf.psel <= 1;
+  intf.pwrite <= 0;
+  intf.paddr <= tr.paddr;
+  intf.pwdata <= 0;
+  //access phase
+  @(posedge pclk);
+  intf.penable <= 1;
+  while(intf.pready == 0) @(posedge pclk);
+  tr.prdata <= intf.prdata;
+  tr.pslverr <= intf.pslverr;
+  intf.penable <= 0;
+endtask
+
+task drive_reset();
+  intf.psel <= 0;
+  intf.penable <= 0;
+  intf.pwrite <= 0;
+  intf.paddr <= 0;
+  intf.pwdata <= 0;
+  intf.prdata <= 0;
+  intf.p <= 0;
+endtask
+
+```
+### Monitor 
+it captures the dut output only when handshake is completed. i.e if psel && penable && pready are high then only it will capture pwdata, prdata
+```verilog
+class apb_mon extends uvm_monitor;
+uvm_analysis_port#(apb_transaction) m_ap;
+function new(string name="", uvm_component parent = null);
+  super.new(name, parent);
+  m_ap = new("m_ap", this);
+endfunction
+
+task run_phase(uvm_phase phase);
+  apb_transaction tr;
+  forever begin
+    tr = apb_transaction::type_id::create("tr"); //each time create fresh object and store the data and send to scb// this avoids cloning of object
+    @(posedge pclk)
+    if(psel && penable && pready)begin
+      tr.paddr = vif.paddr;
+      tr.pslverr = vif.pslverr;
+      if(tr.pwrite)begin
+        tr.pwdata = vif.pwdata;
+      end else begin
+        tr.prdata = vif.prdata;
+      end
+    end
+  m_ap.write(tr);
+  end
+endtask
+endclass
+```
+### Scoreboard
+declare analysis imp port
+declare one memory to store the write txn and to compare when read txn is initiated
+implement write method, just store the incoming txn into queue then in run phase take out elements and do compare operations
+
+```verilog
+class apb_scoreboard extends uvm_scoreboard;
+uvm_analysis_imp#(apb_transaction, apb_scoreboard) s_ap;
+apb_transaction exp_queue[$];
+bit[31:0] mem[8];
+function new();
+s_ap = new("s_ap", this);
+endfunction
+
+funciton void write(apb_transaction tr);
+if(tr.pslverr)begin
+`uvm_warning("pslverr has been seen", UVM_NONE)
+end else begin
+exp_queue.push_back(tr);
+end
+endfunction
+
+task run_phase(uvm_phase phase);
+apb_transaction expdata; //store the incoming pkt from monitor and check the results
+forever begin
+  wait(exp_queue.size >0);
+  expdata = exp_queue.pop_front(); //extract first pkt and check
+  if(expdata.pwrite == 1)begin
+    mem[expdata.paddr] = expdata.pwdata;
+  end else if(expdata.pwrite == 0)begin
+    if(expdata.prdata != mem[expdata.paddr])begin
+      `uvm_error("read data mismatch", UVM_NONE)
+    end else begin
+      `uvm_info(get_type_name(), "READ MATCH", UVM_NONE)
+    end
+  end
+end
+endtask
+endclass
+```
