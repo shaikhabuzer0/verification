@@ -349,6 +349,43 @@ Q15. in 32bit variable, number of 1's should be 12 non consecutively
     endfunction
 ```
 
+Q. there is 1000bit variable, number of 7 consecutive 1's only and remaining all zeros  
+
+```verilog
+
+module test;
+class constraints;
+rand bit[999:0] data;
+rand int start_index;
+constraint seven_ones_c{
+ $countones(data)  == 7;
+}
+/*
+constraint ones_c{
+ foreach(data[i]){
+ if(i>0 && data[i] ==1)
+  data[data[i]+:7] == 7'b1111111;
+}
+;}
+/*
+constraint index_c{
+ start_index inside {[0:999-7]};
+}
+constraint final_c{
+ data[start_index+:7] == 7'b1111111;
+}
+function void post_randomize();
+  $display("data=%b", data);
+endfunction
+endclass
+constraints c;
+initial begin
+  c=new();
+  c.randomize();
+end
+endmodule
+
+```
 Q16. factorial numbers
 
 ```verilog
