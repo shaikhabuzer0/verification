@@ -362,6 +362,9 @@ num %2 == 1
 num[0] == 1
 num & 1'b1 == 1
 
+Modulo operator
+i%7 gives you range of numbers from 0 to 7 ex: 0,1,2,3,4,5,6,7
+i%7 == 0 gives you multiples of 7
 ```
 
 Q. count number of digits
