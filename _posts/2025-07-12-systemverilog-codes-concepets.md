@@ -332,7 +332,25 @@ logic [3:0] data;
 bit in;  
 data << 1;// left shift by 1 bit and append zeros on LSB  
 data << 1 | in; // left shift by 1 bit and append incoming new bits  
-{data[2:0], in}; // does exactly as above i.e it removes the MSB and appends new bits to LSB  
+{data[2:0], in}; // does exactly as above i.e it removes the MSB and appends new bits to LSB
+
+1 << k == 2**k  
+example. 2**3 = 8  
+1<<3 means shift 1 left by 3  
+1 initial value
+10   first left shift
+100  second left shift
+1000 third left shift = nothing but 8
+2**k means kth bit is high.
+
+number is power of 2 or not
+x & (x-1) == 0 then its power of 2 otherwise it's not power of 2.
+example. x=4
+  x=100
+    - 1
+x-1=011
+
+x & x-1 is zero here so it is power of 2
 ```
 READ MODIFY WRITE
 ```verilog
@@ -366,6 +384,7 @@ Modulo operator
 i%7 gives you range of numbers from 0 to 6 ex: 0,1,2,3,4,5,6
 i%7 == 0 gives you multiples of 7
 ```
+
 
 Q. count number of digits
 ```verilog
