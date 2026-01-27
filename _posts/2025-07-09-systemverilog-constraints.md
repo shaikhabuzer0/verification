@@ -1049,7 +1049,14 @@ endmodule
 
 ```
 1. Write constraint to generate 01010101 pattern, 11110000  
-x. Write constraint for power of 9 power of 3  
+x. Write constraint for power of 9 power of 3
+x. generate power of 2 without using power operator
+constraint power_c{
+ //$countones(data) == 1; OR
+ //$onehot(data); OR
+  //da[i] == 2**i; OR
+  
+}
 x. write constraint such that for two 4bit variables a and b, lsb of a and lsb of b should not be equal.  
 x. constraint for 2 3 4 5 6 7 8 9 10 11 12 13 14 15  
 x. generate 888887777766666555554444433333222221111100000  
