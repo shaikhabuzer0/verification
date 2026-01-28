@@ -351,6 +351,37 @@ example. x=4
 x-1=011
 
 x & x-1 is zero here so it is power of 2
+
+How to **check** whether kth bit is set or not?
+put 1 on the kth bit and do & operation, if kth bit is 1 then result will be 1 otherwise result will be 0.
+How to put 1 on the kth bit?
+1 << k will do the job of putting 1 on kth bit.
+Finally
+num & (1<<k) is the forumula
+
+**Toggle** the kth bit
+num ^ (1<<k)
+
+**Set** the kth bit
+num | (1<<k)
+
+**unset** the kth bit
+num & ~(1<<k)
+
+num/2**k is same as 1 >> k
+num * 2**k is same as 1 << k
+
+if x is 5 then make it 10, if x is 10 then make it 5.
+if(x==5)
+x=10
+else if(x==10)
+x=5
+
+OR
+
+x = 10 ^ 5 ^ x;// if x=5 then x becomes 10 because 5 ^ 5 gets cancelled, xor operation, same raha to zero different raha to 1
+
+
 ```
 READ MODIFY WRITE
 ```verilog
