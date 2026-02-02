@@ -850,23 +850,6 @@ constraint values_c{
             vari[i] != vari[i-1];
     }
 ```
-Q. write constraint such that when rand bit[3:0] a; is randomized then value of a should not be same as previous 5 values of a.  
-
-```verilog
-rand bit[3:0]a;
-int q[$];
-constraint values_c{
-    !(a inside {q});
-    }
-function void post_randomize();
-    q.push_back(a);
-if( q.size == 6)begin
-    q.pop_front();
-end
-$display("value is %p", q);
-endfunction
-```
-
 Q. randc behaviour without using randc
 
 ```verilog
@@ -884,6 +867,24 @@ function void post_randomize();
     $display(" values of q=%p",q);
 endfunction
 ```
+Q. write constraint such that when rand bit[3:0] a; is randomized then value of a should not be same as previous 5 values of a.  
+
+```verilog
+//Question is same as randc behviour without randc keyword. only thing is instead of 16 values, it is telling only 5 values.
+rand bit[3:0]a;
+int q[$];
+constraint values_c{
+    !(a inside {q});
+    }
+function void post_randomize();
+    q.push_back(a);
+if( q.size == 6)begin //instead of comparing with the size compare with the given number
+    q.pop_front();
+end
+$display("value is %p", q);
+endfunction
+```
+
 Q. write constraint such that payload size should be in between 11 and 22, each value of payload should be greate than previous value by 2.
 
 ```verilog
