@@ -454,8 +454,7 @@ rand bit[31:0] variable;
     endfunction
 ```
 // Q14 visit again
-
-/*
+```verilog
 //bit[7:0] array1 [10] with unique values and multiple of 3
 
 rand bit[7:0] array1[10];
@@ -471,9 +470,7 @@ function void post_randomize();
         $display("Value after randomization is %p", array1);
         $display("----------------------------------------------------------------------------");
 endfunction
-*/
 
-/*
 //generate unique numbers without using unique keyword
 //one way is to use shuffle in post_randomize function
 
@@ -494,10 +491,9 @@ endfunction
                 if(i!=j)
                     array[i]!=array[j];
                 }
-*/
-
-/*
+```
 //prime number checking
+```verilog
 rand int num;
 int flag=0;
 constraint value_c{
@@ -548,7 +544,6 @@ function int prime(int num);
     end
 endfunction
 
-/*
 //Prime numbers generation
     constraint valued_cx{
         dummy.size == 50;
@@ -570,12 +565,10 @@ endfunction
         $display("Prime number is %p", array);
         $display("----------------------------------------------------------------------------");
     endfunction
-*/
+```
+Q. 0-31 bits shoule be 1, 32-61 bits should be 0s
 
-/*
-
-// 0-31 bits shoule be 1, 32-61 bits should be 0s
-
+```verilog
 rand bit[0:61] addr;
 //constraint values_c{
 //    addr[0:31] == 'hFFFF_FFFF;
@@ -595,20 +588,16 @@ function void post_randomize();
         $display("Final value is %b", addr);
         $display("----------------------------------------------------------------------------");
 endfunction
+```
 
-*/
-
-/*
-//generate consecutive elements
+Q. generate consecutive elements
+```verilog
     constraint values_c{
         array[i]== i;
         }
-*/
-
-
-/*
-
-// generate 10 unique numbers between 99 to 100 
+```
+Q. generate 10 unique numbers between 99 to 100 
+```verilog
     rand int foo[10];
     real store[10]; //point to be noted, its real data type
     constraint values_u{
@@ -626,13 +615,12 @@ function void post_randomize();
         $display("Final value is %p", store);
         $display("----------------------------------------------------------------------------");
 endfunction
-*/
 
     constraint asscending_c;
     constraint range_c;
     constraint data_c;
 
-/*
+
 // extern constraint
     rand int da[];
 function void post_randomize();
@@ -640,11 +628,10 @@ function void post_randomize();
         $display("Final value is %p", da);
         $display("----------------------------------------------------------------------------");
 endfunction
-*/
+```
+Q. even numbers in range of 10 to 30 using fixed, dynamic, queue arrays
 
-/*
-//even numbers in range of 10 to 30 using fixed, dynamic, queue arrays
-
+```verilog
 rand int fa[10];  //fixed
 rand int da[];  //dynamic
 rand int qa[$];  //queue // solution is eaxactly same as da
@@ -672,13 +659,10 @@ function void post_randomize();
         $display("dynamic array is %p", da);
         $display("----------------------------------------------------------------------------");
 endfunction
-*/
+```
+Q. write constraint so that if we randomize it for 10 times then we should get sequence as 1010101010 you should not use arrays  
 
-
-/*
-//write constraint so that if we randomize it for 10 times then we should get
-//sequence as 1010101010 you should not use arrays
-
+```verilog
 rand bit seq;
 bit a=0;
 
@@ -688,11 +672,10 @@ constraint values_c{
 function void post_randomize();// $write won't add new line character so 10 10 will appear as 1010
         $write("Final value is %b, %b", seq, a);
 endfunction
-*/
+```
 
-/*
-//write solve before constraint
-
+Q. write solve before constraint
+```verilog
 rand bit a; //can take values 0 or 1
 rand bit[2:0] b; // can take values 0, 1, 2, 3
 
@@ -706,11 +689,11 @@ function void post_randomize();
         $display("----------------------------------------------------------------------------");
 endfunction
 
-*/
 rand int da[];
+```
 
-/*
-//2d dynamic array consecutive numbers
+Q. 2d dynamic array consecutive numbers
+```verilog
     rand int dynamic_a[][];
     constraint size_d{
         dynamic_a.size == 3; // allocating size for the 1st dimension
@@ -728,11 +711,11 @@ rand int da[];
         end
         $display("----------------------------------------------------------------------------");
     endfunction
-*/
+```
 
 
-/*
-//Pallindrome number check
+Q. Pallindrome number check
+```verilog
    function int palli(int num);
        int temp, append, re;
        temp=num;
@@ -766,11 +749,10 @@ function void post_randomize();
     $display("value of array = %p", dummy);
     $display("----------------------------------------------------------------------------");
 endfunction
-*/
+```
+Q. check whether random generated number is armstrong or not?
 
-
-/*
-//check whether random generated number is armstrong or not?
+```verilog
 rand int arms;
 constraint values_c{
     arms inside {[100:999]};
@@ -802,11 +784,11 @@ function int arm(int num);
         return num;
     end
 endfunction
-*/
+```
 
-/*
-//fibonaci series is a series, so we have to make use of iterator variable
+Q. fibonaci series is a series, so we have to make use of iterator variable
 
+```verilog
     constraint values_c{
         foreach(array[i])
             if(i==0)
@@ -821,10 +803,10 @@ function void post_randomize();
     $display("value of array = %p", array);
     $display("----------------------------------------------------------------------------");
 endfunction
-*/
+```
 
-/*
-//two queues should not have same elements
+Q. two queues should not have same elements
+```verilog
 rand int queue1[$];
 rand int queue2[$];
 constraint qsize_c{
@@ -847,20 +829,19 @@ function void post_randomize();
     $display("value of queue2 = %p", queue2);
     $display("----------------------------------------------------------------------------");
 endfunction
-*/
-/*
-//distribution constraint 70% 30%
+```
 
+Q. distribution constraint 70% 30%
+```verilog
 rand bit[7:0] a;
 
 constraint values_c{
     a dist {[1:100]:=70, {[101:130]:= 30};
     }
-*/
+```
+Q. 16bit variable such that no consecutive 1 
 
-/*
-//16bit variable such that no consecutive 1 
-
+```verilog
 rand bit[15:0] vari;
 
 constraint values_c{
@@ -868,12 +849,10 @@ constraint values_c{
         if(i>0 && vari[i])
             vari[i] != vari[i-1];
     }
-*/
+```
+Q. write constraint such that when rand bit[3:0] a; is randomized then value of a should not be same as previous 5 values of a.  
 
-/*
-//write constraint such that when rand bit[3:0] a; is randomized then value of
-//a should not be same as previous 5 values of a.
-
+```verilog
 rand bit[3:0]a;
 int q[$];
 constraint values_c{
@@ -886,12 +865,11 @@ if( q.size == 6)begin
 end
 $display("value is %p", q);
 endfunction
-*/
+```
 
+Q. randc behaviour without using randc
 
-/*
-//randc behaviour without using randc
-
+```verilog
 rand bit[2:0] vec;
 int q[$];
 constraint values_c{
@@ -905,12 +883,10 @@ function void post_randomize();
     end
     $display(" values of q=%p",q);
 endfunction
-*/
+```
+Q. write constraint such that payload size should be in between 11 and 22, each value of payload should be greate than previous value by 2.
 
-/*
-//write constraint such that payload size should be in between 11 and 22, each
-//value of payload should be greate than previous value by 2.
-
+```verilog
     rand bit[7:0] payload[];
     constraint size_aa{
         payload.size inside {[11:22]};
@@ -925,10 +901,11 @@ endfunction
     $display("value of data = %p", payload);
     $display("----------------------------------------------------------------------------");
     endfunction
-*/
+```
 
-/*
-//sort elements of dynamic array
+Q. sort elements of dynamic array
+
+```verilog
 rand bit[3:0] sort[];
 constraint sixe_c{
     sort.size == 5;
@@ -947,11 +924,12 @@ function void post_randomize();
     end
     $display("value of sorted sort is %p", sort);
 endfunction
-*/
+```
+Q. constraint for {1000, 0100, 0010, 0001} diagonal matrix
 
+```verilog
 rand bit[3:0] td[4][4];
-/*
-// 44. constraint for {1000, 0100, 0010, 0001} diagonal matrix
+
 constraint matrix_c{
     foreach(td[i,j])
         if(i == j)
@@ -959,10 +937,9 @@ constraint matrix_c{
         else
             td[i][j] == 0;
         }
-*/
-
-// 45. constraint for {1111, 1110, 1100, 1000} matrix
-/*
+```
+Q45. constraint for {1111, 1110, 1100, 1000} matrix
+```verilog
 constraint matrix_d{
     foreach(td[i,j])
         if(i==i && j<((4)-i))
@@ -976,12 +953,7 @@ function void post_randomize();
     $display("value of td = %p", td);
     $display("----------------------------------------------------------------------------");
 endfunction
-*/
-
-
 endclass
-
-
 
 //------------------------------------------------------------------------------------------
 constraint cons_problems::range_c{
