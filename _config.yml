@@ -1,4 +1,4 @@
-<!-- 
+/*
 title: "VLSI Verification Content"
 author: "Abuzar"
 description: "Some short description of your blog can go here."
@@ -30,7 +30,7 @@ defaults:
       type: post
     values:
       tags: Other
--->
+*/
 
 title: Design Verification
 description: Notes on SystemVerilog, UVM, CPU Design and Hardware Engineering
