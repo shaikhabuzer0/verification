@@ -1,9 +1,136 @@
+/* =========================================
+   GLOBAL THEME
+========================================= */
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: #0f172a;
+  color: #e2e8f0;
+}
+
+/* =========================================
+   LINKS
+========================================= */
+
+a {
+  color: #38bdf8;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #7dd3fc;
+}
+
+/* =========================================
+   TYPOGRAPHY
+========================================= */
+
+p {
+  line-height: 1.7;
+  font-size: 17px;
+}
+
+h1 {
+  font-size: 34px;
+  color: #f8fafc;
+}
+
+h2 {
+  font-size: 26px;
+  color: #f8fafc;
+}
+
+h3 {
+  color: #f8fafc;
+}
+
+/* =========================================
+   MAIN CONTENT WIDTH
+========================================= */
+
+.page-content {
+  max-width: 900px;
+  margin: auto;
+  padding: 40px;
+}
+
+/* =========================================
+   POST CARD STYLE
+========================================= */
+
+.post-preview,
+.post-card {
+  background: #1e293b;
+  padding: 25px;
+  margin-bottom: 25px;
+  border-radius: 8px;
+  transition: transform .2s;
+}
+
+.post-preview:hover,
+.post-card:hover {
+  transform: translateY(-4px);
+}
+
+/* =========================================
+   CODE BLOCKS
+========================================= */
+
+pre {
+  background: #020617;
+  padding: 16px;
+  border-radius: 8px;
+  overflow-x: auto;
+}
+
+code {
+  color: #38bdf8;
+}
+
+.highlight {
+  background: #020617;
+  padding: 18px;
+  border-radius: 8px;
+}
+
+/* =========================================
+   HEADER
+========================================= */
+
+.site-header {
+  background: #020617;
+  border-bottom: 1px solid #1e293b;
+}
+
+.site-title {
+  font-weight: 700;
+  font-size: 22px;
+}
+
+/* =========================================
+   FOOTER
+========================================= */
+
+.site-footer {
+  border-top: 1px solid #1e293b;
+  margin-top: 40px;
+}
+
+/* =========================================
+   HR STYLE
+========================================= */
+
 hr {
   margin-top: 30px;
   margin-bottom: 20px;
+  border: none;
+  border-top: 1px solid #1e293b;
 }
 
-/* Post navigation links */
+/* =========================================
+   POST NAVIGATION
+========================================= */
+
 .post_navi {
   display: flex;
 }
