@@ -1087,15 +1087,13 @@ x. write a constraint such that all elements in an array are powers of 2 and sor
 43. Write a constraint to generate 1221122112211.....  
 write constraint to generate pattern 021346578  
   
-----------------------2D----------------------------  
-44. constraint for {1000, 0100, 0010, 0001} diagonal matrix when i and j are equal make it 1 else 0  
-45. constraint for {1111, 1110, 1100, 1000} matrix  
-46. {1010, 0101, 1100, 0011}  
+## 2D Arrays  
+44. constraint for \{1000, 0100, 0010, 0001\} diagonal matrix when i and j are equal make it 1 else 0  
+45. constraint for \{1111, 1110, 1100, 1000\} matrix  
+46. \{1010, 0101, 1100, 0011\}  
 47. 0001, 0010, 0100, 1000  
 48. 1234, 2341, 3421, 4123  
-50. {{1,0,2,0,},{0,3,0,4},{5,0,6,0},{0,7,0,8}}
+50. \{\{1,0,2,0,\},\{0,3,0,4\},\{5,0,6,0\},\{0,7,0,8\}\}
 51. constraint for 5*5 matrix such that last coloumn is sum of previous coloumns   
   
-------------------array manipulator--------------  
-```
-  
+## Array manipulator
