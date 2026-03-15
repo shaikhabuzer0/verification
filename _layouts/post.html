@@ -1,3 +1,4 @@
+<!--
 ---
 layout: default
 ---
@@ -24,3 +25,54 @@ layout: default
 
   <a class="u-url" href="{{ page.url | relative_url }}" hidden></a>
 </article>
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>{{ page.title }} | {{ site.title }}</title>
+
+  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+</head>
+
+<body>
+
+<header class="site-header">
+
+  <div class="header-container">
+
+    <h1>
+      <a href="{{ '/' | relative_url }}">
+        {{ site.title }}
+      </a>
+    </h1>
+
+    <nav>
+      <a href="{{ '/' | relative_url }}">Home</a>
+      <a href="{{ '/about' | relative_url }}">About</a>
+      <a href="https://github.com/shaikhabuzer0">GitHub</a>
+    </nav>
+
+  </div>
+
+</header>
+
+
+<main class="content">
+
+{{ content }}
+
+</main>
+
+
+<footer class="footer">
+
+<p>© {{ site.time | date: "%Y" }} Abuzar</p>
+
+</footer>
+
+</body>
+
+</html>
