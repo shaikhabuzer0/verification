@@ -1,5 +1,32 @@
-These blogs will help you for ASIC/SOC/IP Verification interview preperation 
+---
+layout: default
+title: Home
+---
 
-I will talk about Systemverilog, UVM, Synopsys VCS tool, Shell scripting and much more...
+# Design Verification Blog
 
-Stay tuned for upcoming blogs...
+SystemVerilog • UVM • Computer Architecture • Chip Design
+
+---
+
+{% for post in site.posts %}
+
+<div class="post-card">
+
+<h2>
+<a href="{{ post.url | relative_url }}">
+{{ post.title }}
+</a>
+</h2>
+
+<p>
+{{ post.excerpt }}
+</p>
+
+<p class="date">
+{{ post.date | date: "%B %d, %Y" }}
+</p>
+
+</div>
+
+{% endfor %}
