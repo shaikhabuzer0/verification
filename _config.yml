@@ -1,37 +1,3 @@
-/*
-title: "VLSI Verification Content"
-author: "Abuzar"
-description: "Some short description of your blog can go here."
-
-email: "shaikhabuzer0@gmail.com"
-
-theme: "minima"
-
-url: "https://shaikhabuzer0.github.io"
-baseurl: "/DesignVerification"
-
-rss: rss
-
-kramdown:
-  syntax_highlighter_opts:
-    disable: false
-
-plugins:
-  - jekyll-feed
-  - jekyll-sitemap
-
-titles_from_headings:
-  strip_title: true
-  collections: true
-
-defaults:
-  - scope:
-      path: ""
-      type: post
-    values:
-      tags: Other
-*/
-
 title: Design Verification
 description: Notes on SystemVerilog, UVM, CPU Design and Hardware Engineering
 author: Abuzar
