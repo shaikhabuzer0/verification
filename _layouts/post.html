@@ -27,52 +27,19 @@ layout: default
 </article>
 -->
 
-<!DOCTYPE html>
-<html>
+---
+layout: default
+---
 
-<head>
-  <meta charset="UTF-8">
-  <title>{{ page.title }} | {{ site.title }}</title>
+<article class="post">
 
-  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
-</head>
+<h1>{{ page.title }}</h1>
 
-<body>
-
-<header class="site-header">
-
-  <div class="header-container">
-
-    <h1>
-      <a href="{{ '/' | relative_url }}">
-        {{ site.title }}
-      </a>
-    </h1>
-
-    <nav>
-      <a href="{{ '/' | relative_url }}">Home</a>
-      <a href="{{ '/about' | relative_url }}">About</a>
-      <a href="https://github.com/shaikhabuzer0">GitHub</a>
-    </nav>
-
-  </div>
-
-</header>
-
-
-<main class="content">
+<p class="post-meta">
+{{ page.date | date: "%B %d, %Y" }}
+</p>
 
 {{ content }}
 
-</main>
-
-
-<footer class="footer">
-
-<p>© {{ site.time | date: "%Y" }} Abuzar</p>
-
-</footer>
-
-</body>
-
+</article>
 </html>
