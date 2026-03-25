@@ -911,7 +911,7 @@ rand bit[3:0] sort[];
 constraint sixe_c{
     sort.size == 5;
     }
-
+// below is bubble sort i.e comparing adjacent elements and doing swap
 function void post_randomize();
     $display("value of before sorting sort is %p", sort);
     for(int i=0; i<sort.size()-1; i++)begin
