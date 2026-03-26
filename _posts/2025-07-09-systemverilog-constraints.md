@@ -1,5 +1,17 @@
 ## SystemVerilog Constraints Questions
 
+Q. write constraint such that for two 4bit variables a and b, lsb of a and lsb of b should not be equal. 
+```verilog
+rand bit[3:0] a;
+rand bit[3:0] b;
+constraint lsb_equal{
+a[0] != b[0];
+(a & 1) != (b & 1);// OR
+(a % 2) != (b % 2); //OR
+(a ^ b) & 1 == 1;// i.e (0 ^ 1) & 1 == 1 //true
+(1 ^ 1) & 1 == 1 //false
+}
+```
 Q1. Write a constraint to generate 01010101... pattern.
 
 ```verilog
@@ -1021,19 +1033,39 @@ end
 endmodule
 
 ```
-```verilog
+
 1. Write constraint to generate 01010101 pattern, 11110000  
-x. Write constraint for power of 9 power of 3
-x. generate power of 2 without using power operator
+Q. generate power of 2 without using power operator
+```verilog
+//thought process, write down 5 numbers which are power of 2 and observe the pattern
+//If a binary contains single digit 1 then that number is a power of 2
+0100 = 4
+1000 = 8
+0010 = 2
+10000 = 16
+
 constraint power_c{
  //$countones(data) == 1; OR
  //$onehot(data); OR
-  //da[i] == 2**i; OR
-  
+//da[i] == 2**i;  
 }
-x. write constraint such that for two 4bit variables a and b, lsb of a and lsb of b should not be equal.  
+```
+x. Write constraint for power of 9 power of 3
+```verilog
+We have to use power operator
+rand bit[2:0] exp;
+rand int value;
+constraint pof3{
+value == 3 ** exp; // similarly for power of 9
+}
+```
+
 x. constraint for 2 3 4 5 6 7 8 9 10 11 12 13 14 15  
-x. generate 888887777766666555554444433333222221111100000  
+x. generate 888887777766666555554444433333222221111100000
+constraint repetition{
+foreach(a[i])
+a[i] == (i + 5) / 5
+}
 x. mobile number first 4 digits must be 8919  
 23. Write a constraint so that if we randomize a single bit variable for 10 times values should generate be like 101010101010.  
 35. Write a constraint on a 16 bit rand vector to generate alternate pairs of 0's and 1's.  //Ans:Ex:0011.. or 1100..  
