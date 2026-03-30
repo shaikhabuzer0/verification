@@ -1,5 +1,4 @@
 ## Systemverilog Assertions   
-### Basics of assertions
 ```verilog
 ##0 OR |->               same cycle 
 ##1 OR |->##1 OR |=>     next cycle
