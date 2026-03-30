@@ -112,6 +112,6 @@ endclass
 
 class test;
 vsequence vseq;
-vseq.start(env.vseqr_h);
+vseq.start(env.vseqr_h); //m_sequencer = env.vseqr_h
 endclass
 ```
