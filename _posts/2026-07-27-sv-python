@@ -1,0 +1,10 @@
+#SV and Python syntax similarities
+##Inheritance
+sv  
+class car extends vehicle;
+endclass
+
+python  
+
+class car(vehicle)
+
